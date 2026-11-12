@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { AUDIENCE_AFFINITY } from "@/data/audiences";
 import { BENCHMARKS } from "@/data/benchmarks";
 import { INDUSTRY_FIT } from "@/data/industries";
-import { CHANNEL_MARKET } from "@/data/market";
+import { publicChannelMarket } from "@/data/market";
 import { STAGE_FIT } from "@/data/planner-weights";
 import { REGION_STRENGTH, TIER_STRENGTH } from "@/data/regions";
 import { ChannelFrontmatter, type ChannelData } from "./schema";
@@ -56,6 +56,6 @@ function merge(fm: ChannelFrontmatter, body: string, file: string): ChannelData 
     frequency: bench.frequency,
     performance: bench.performance,
     roi: bench.roi,
-    market: CHANNEL_MARKET[fm.slug],
+    market: publicChannelMarket(fm.slug),
   };
 }

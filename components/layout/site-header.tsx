@@ -28,7 +28,7 @@ export function SiteHeader({ channelCount }: { channelCount: number }) {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 text-paper transition-colors duration-300 ${
-        scrolled || open ? "bg-ink/85 backdrop-blur-md" : "bg-transparent"
+        scrolled || open ? "bg-ink/85 backdrop-blur-md" : "bg-gradient-to-b from-ink/70 to-transparent"
       }`}
     >
       <a href="#main" className="sr-only-focusable mono-label absolute left-4 top-3 z-10 bg-coral px-3 py-2 text-ink">

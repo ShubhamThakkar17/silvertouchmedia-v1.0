@@ -11,11 +11,12 @@ Items marked **OPEN** need a decision from you.
    media-specific address when one exists (one-line change).
 2. **OPEN · Social URLs.** No Instagram / LinkedIn / YouTube handles were supplied, so the
    links point at the network home pages. Set them in `brand.config.ts` (empty string hides one).
-3. **OPEN · Two market figures still unverified.** All §7 figures were checked against
+3. **OPEN · Two market figures still unverified (now hidden publicly).** All §7 figures were checked against
    published coverage (PMAR 2026, FICCI-EY 2026, WPP Media Sporting Nation 2026, Kofluence
    2026) and linked in `data/sources.ts`. Two remain `verified: false` until we find the
    exact article: airports' share of transit media ("over 50%", Media4Growth) and real
-   estate's ~25% share of OOH (PMAR). The airport card's ribbon stat uses the first.
+   estate's ~25% share of OOH (PMAR). Since M4 they are kept out of every public page;
+   send the exact article links and they reappear automatically.
 4. **OPEN · Most cost ranges are placeholders.** Only hoardings (expressway and city rate
    card) and railways (train media rate card) are seeded from real rate cards. Every
    other range is a labelled planning placeholder for your media team to replace.
@@ -136,4 +137,39 @@ Items marked **OPEN** need a decision from you.
   Channel pages show the credit; concept images keep the "Concept visual" caption.
 - **IMAGE_PROMPTS.md** now covers all 18 channels: the two needed now (airline, stadium) and
   optional replacements for the rest.
+
+## M4 · Pages
+
+- **Disciplines and industries are content.** `/content/services/*.mdx` holds the deck's six
+  disciplines word for word (headline, bullets, outcome); `/content/industries/*.mdx` holds the
+  deck's six industries with challenges and approach. Industry slugs must match
+  `data/industries.ts`, so channel fit scores drive each industry page's channel ranking.
+- **Charts are hand-built SVG/CSS, not Recharts.** Donut, bars, heatmap and zone map are a few
+  hundred lines with no chart library, so pages stay light for the Lighthouse target. They use
+  the brand chart palette (now nine colours) and have text alternatives.
+- **India map is a schematic zone tile map,** not a geographic map (brief: "simple SVG zones, no
+  heavy map lib"). It is labelled by zone with the 1–5 score in each tile.
+- **Unverified figures are not shown publicly.** The market page and channel pages filter out any
+  figure whose source is `verified: false`, and a test enforces it. The airport ribbon stat
+  changed from "50%+ of transit OOH" to "Premium flyers" for the same reason.
+- **Format icons:** each format gets a numbered mono index `(01)` in the Gobo style instead of an
+  icon set, which avoids a dependency and generic stock icons.
+- **Planner core started early.** The home teaser needs a real mix, so `lib/planner/mix.ts` (score,
+  top-N, score^1.5 allocation, 50% cap, 10% measurement floor, minimum-budget rule) is built
+  now with tests; M5 adds impressions, reach, leads, ROI, scenarios and personas.
+  One refinement to the brief's rule: before dropping channels that miss their minimum, it
+  first tries narrower mixes within the budget's channel-count range, so an expensive top
+  channel (hoardings) survives instead of being dropped in favour of cheap low-scoring ones.
+- **Teaser defaults:** growing brand, leads, PAN-India, 3 months, shown under the slider. With a
+  leads objective, search and social usually lead the mix; that is intended.
+- **Contact form** validates on both sides with one zod schema (Indian mobile, optional email,
+  honeypot). `/api/lead` accepts and validates but does not deliver yet: Sheets, Resend,
+  Turnstile, rate limiting and UTM capture arrive in M5. The thank-you state offers WhatsApp.
+- **Map on Contact:** a stylised location card that opens Google Maps, instead of an embedded
+  map or a downloaded map tile (no API key, no third-party embed, no tile licensing).
+- **Header over photos** now has a top gradient until you scroll, so nav stays readable over
+  bright hero images. **Footer wordmark** was resized so it no longer clips at the right edge.
+- **Eyebrows on forest sections use mint,** because coral on forest misses WCAG AA for small text.
+- **Not built in M4 (by plan):** `/planner` and `/planner-methodology` (M5); `/insights`,
+  `/privacy`, `/terms` (M6). They still show the branded "in production" page.
 

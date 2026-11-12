@@ -1,4 +1,4 @@
-import type { SourceId } from "./sources";
+import { SOURCES, type SourceId } from "./sources";
 
 /**
  * India media market figures. One primary source per chart (PMAR 2026 for adex by
@@ -7,6 +7,8 @@ import type { SourceId } from "./sources";
  */
 export type MarketFigure = {
   value: number;
+  /** Upper end when the source gives a range. */
+  valueHigh?: number;
   unit: "crore" | "percent" | "trillion";
   label: string;
   year: number;
@@ -53,12 +55,11 @@ export const CONTEXT = {
   oohGrowth2025: { value: 13, unit: "percent", label: "OOH revenue growth, 2025 (FICCI-EY)", year: 2025, source: "ficciEy2026" },
   doohShareOfOoh: { value: 18, unit: "percent", label: "Digital OOH share of OOH revenue", year: 2025, source: "ficciEy2026" },
   transitShareOfOoh: { value: 28, unit: "percent", label: "Transit media share of OOH revenue, 2024", year: 2024, source: "ficciEy2025Transit" },
-  airportShareOfTransit: { value: 50, unit: "percent", label: "Airports' share of transit media (over)", year: 2024, source: "m4gAirportTransit" },
+  airportShareOfTransit: { value: 50, unit: "percent", label: "Airports' share of transit media (over 50%)", year: 2024, source: "m4gAirportTransit" },
   realEstateShareOfOoh: { value: 25, unit: "percent", label: "Real estate share of OOH spend (about)", year: 2025, source: "pmar2026RealEstateOoh" },
   sportsEconomy2025: { value: 18864, unit: "crore", label: "India sports economy, 2025", year: 2025, source: "wppSportingNation2026", note: "+13.4%; cricket 89%" },
   cricketShareOfSports: { value: 89, unit: "percent", label: "Cricket share of sports economy, 2025", year: 2025, source: "wppSportingNation2026" },
-  influencer2025Low: { value: 3000, unit: "crore", label: "Influencer marketing, 2025 (low)", year: 2025, source: "kofluence2026" },
-  influencer2025High: { value: 3500, unit: "crore", label: "Influencer marketing, 2025 (high)", year: 2025, source: "kofluence2026" },
+  influencer2025: { value: 3000, valueHigh: 3500, unit: "crore", label: "Influencer marketing, 2025", year: 2025, source: "kofluence2026" },
 } satisfies Record<string, MarketFigure>;
 
 export const DEFINITIONS_NOTE =
@@ -109,6 +110,17 @@ export const CHANNEL_MARKET: Record<string, ChannelMarket> = {
   "social-media": fromMedium("digital", "Digital adex (all formats)"),
   "search-performance": fromMedium("digital", "Digital adex (all formats)"),
   "digital-articles-pr": fromMedium("digital", "Digital adex (all formats)"),
+};
+
+/**
+ * Public pages show only figures whose source is verified. Unverified ones stay in the
+ * data (and on /admin/data-audit) until someone links the exact article.
+ */
+export const isPublic = (f: { source: SourceId }) => SOURCES[f.source].verified;
+export const publicContext = (): MarketFigure[] => (Object.values(CONTEXT) as MarketFigure[]).filter(isPublic);
+export const publicChannelMarket = (slug: string): ChannelMarket | undefined => {
+  const m = CHANNEL_MARKET[slug];
+  return m && isPublic(m) ? m : undefined;
 };
 
 /** Highlights for the home page market snapshot, in display order. */

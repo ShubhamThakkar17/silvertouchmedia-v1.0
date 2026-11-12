@@ -19,8 +19,11 @@ export const theme = {
   shadows: {
     soft: "0 1px 2px rgba(18,19,22,.06), 0 12px 32px -12px rgba(18,19,22,.18)",
   },
-  /** Chart palette built from brand tokens (used by Recharts in later milestones). */
-  chart: ["#FF5B3A", "#0F4D3A", "#9FD9C0", "#2B2F6B", "#B9BCC2", "#FF9C85"],
+  /**
+   * Categorical chart palette built around the brand tokens. Ordered so the first
+   * colours stay distinct on both ink and paper backgrounds.
+   */
+  chart: ["#FF5B3A", "#9FD9C0", "#6B72C9", "#E8C07D", "#4F9D7E", "#FF9C85", "#B9BCC2", "#C9503A", "#2B2F6B"],
 } as const;
 
 export type ThemeColor = keyof typeof theme.colors;

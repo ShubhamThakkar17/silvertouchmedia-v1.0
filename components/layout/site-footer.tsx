@@ -100,7 +100,7 @@ export async function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-16 text-[clamp(3rem,15vw,15rem)] leading-none text-paper/95" aria-hidden>
+        <div className="mt-16 text-[clamp(2rem,11.5vw,12rem)] leading-none text-paper/95" aria-hidden>
           <Logo className="w-full" />
         </div>
         <p className="mono-label mt-8 flex flex-wrap justify-between gap-3 text-silver/60">

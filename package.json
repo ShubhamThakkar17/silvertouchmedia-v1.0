@@ -16,6 +16,7 @@
     "verify": "pnpm check:brand && pnpm typecheck && pnpm lint && pnpm test && pnpm build"
   },
   "dependencies": {
+    "@hookform/resolvers": "5.2.2",
     "@react-three/drei": "10.7.6",
     "@react-three/fiber": "9.3.0",
     "gray-matter": "4.0.3",
@@ -26,6 +27,7 @@
     "qrcode": "1.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-hook-form": "7.62.0",
     "server-only": "^0.0.1",
     "three": "0.180.0",
     "zod": "3.25.76"

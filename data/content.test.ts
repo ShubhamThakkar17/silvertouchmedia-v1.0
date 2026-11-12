@@ -102,3 +102,14 @@ describe("copy rules", () => {
     }
   });
 });
+
+describe("public claims", () => {
+  it("only shows ribbon stats backed by a verified source", () => {
+    for (const c of channels) {
+      if (c.ribbonStatSource) expect(SOURCES[c.ribbonStatSource].verified, `${c.slug}: ${c.ribbonStat}`).toBe(true);
+    }
+  });
+  it("never shows an unverified market block on a channel page", () => {
+    for (const c of channels) if (c.market) expect(SOURCES[c.market.source].verified, c.slug).toBe(true);
+  });
+});

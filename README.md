@@ -10,8 +10,9 @@ Currently configured for **Silver Touch Media**. To rebrand, see [CLONING.md](CL
 | M1 Scaffold: tokens, fonts, brand config, layout, nav, footer, brand-hardcode check | ✅ |
 | M2 Hero ribbon: WebGL curved ribbon, glass monogram, CSS fallback | ✅ (tuning welcome) |
 | M3 Content model: full channel schema, 18 channel guides, `/data` seeds, image pipeline | ✅ |
-| M4 Pages | next |
-| M5 Planner · M6 Polish and deploy | planned |
+| M4 Pages: home sections, channel template, channels index, market, services, industries, about, work, contact | ✅ |
+| M5 Planner (full UI, PDF, lead delivery) | next |
+| M6 Polish and deploy | planned |
 
 ## Run it
 
