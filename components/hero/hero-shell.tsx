@@ -58,7 +58,13 @@ export function HeroShell({ cards, copy, colors, monogramUrl }: Props) {
         setChipIndex(i);
         if (i !== null) router.prefetch(`/channels/${cards[i].slug}`);
       }
-      if (chip.current && i !== null) chip.current.style.transform = `translate(${x + 14}px, ${y - 46}px)`;
+      if (chip.current && i !== null) {
+        // Keep the chip on screen when the hovered card is cut off at an edge.
+        const w = chip.current.offsetWidth || 160;
+        const maxX = (section.current?.clientWidth ?? window.innerWidth) - w - 16;
+        const cx = Math.min(Math.max(x + 14, 16), maxX);
+        chip.current.style.transform = `translate(${cx}px, ${y - 46}px)`;
+      }
     };
   }, [cards, router]);
 

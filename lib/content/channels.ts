@@ -1,29 +1,24 @@
 import "server-only";
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
 import { cache } from "react";
-import { ChannelCore } from "./schema";
+import { loadChannels } from "./load-channels";
+import type { ChannelCore, ChannelData } from "./schema";
 
-const DIR = path.join(process.cwd(), "content/channels");
+/** Every channel, validated and merged with /data. Throws at build time on bad content. */
+export const getChannels = cache((): ChannelData[] => loadChannels());
 
-/** Reads and validates every channel MDX file. Throws at build time on bad frontmatter. */
-export const getChannels = cache((): ChannelCore[] => {
-  const files = fs.readdirSync(DIR).filter((f) => f.endsWith(".mdx"));
-  const channels = files.map((file) => {
-    const { data } = matter(fs.readFileSync(path.join(DIR, file), "utf8"));
-    const parsed = ChannelCore.safeParse(data);
-    if (!parsed.success) {
-      throw new Error(`Invalid frontmatter in content/channels/${file}:\n${parsed.error.toString()}`);
-    }
-    return parsed.data;
-  });
-  const slugs = new Set<string>();
-  for (const c of channels) {
-    if (slugs.has(c.slug)) throw new Error(`Duplicate channel slug: ${c.slug}`);
-    slugs.add(c.slug);
-  }
-  return channels.sort((a, b) => a.order - b.order);
+export const getChannel = (slug: string): ChannelData | undefined => getChannels().find((c) => c.slug === slug);
+
+/** Small projection for client components (ribbon, nav, index). */
+export const toCore = (c: ChannelData): ChannelCore => ({
+  slug: c.slug,
+  order: c.order,
+  name: c.name,
+  shortName: c.shortName,
+  category: c.category,
+  tagline: c.tagline,
+  bestFor: c.bestFor,
+  heroImage: c.heroImage,
+  cardImage: c.cardImage,
+  imageIsConcept: c.imageIsConcept,
+  ribbonStat: c.ribbonStat,
 });
-
-export const getChannel = (slug: string) => getChannels().find((c) => c.slug === slug);

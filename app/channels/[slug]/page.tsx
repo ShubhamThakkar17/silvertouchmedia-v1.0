@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { brand, copy } from "@/brand";
 import { brandImage } from "@/lib/brand-images";
+import { MdxBody } from "@/components/content/mdx-body";
 import { getChannel, getChannels } from "@/lib/content/channels";
 
 export function generateStaticParams() {
@@ -16,12 +17,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!c) return {};
   return {
     title: `${c.name} advertising agency in ${brand.address.locality} | PAN-India`,
-    description: `${c.tagline} ${c.bestFor}.`,
+    description: c.summary,
     alternates: { canonical: `/channels/${c.slug}` },
   };
 }
 
-/** M2 placeholder: the shared-element target for the hero ribbon. Full template lands in M4. */
+/** Hero is the shared-element target for the ribbon. M3 renders the guide body; the full template lands in M4. */
 export default async function ChannelPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const c = getChannel(slug);
@@ -45,12 +46,20 @@ export default async function ChannelPage({ params }: { params: Promise<{ slug: 
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
         <div className="relative z-10 mx-auto flex h-full max-w-[1600px] flex-col justify-end px-4 pb-12 md:px-8">
           <p className="mono-label text-paper/80">
-            ({String(c.order).padStart(pad, "0")}) {c.category} · PAN-India
+            ({String(c.order).padStart(pad, "0")}) {c.label} · PAN-India
           </p>
           <h1 className="display-xl mt-4 max-w-[16ch]">{c.name}</h1>
           <p className="mt-5 max-w-xl text-xl text-silver">{c.tagline}</p>
           {c.imageIsConcept ? (
             <p className="mono-label mt-6 text-paper/50">{copy.disclaimers.concept}</p>
+          ) : c.imageCredit ? (
+            <p className="mono-label mt-6 text-paper/50">
+              {copy.disclaimers.photoBy}{" "}
+              <a href={c.imageCredit.url} target="_blank" rel="noreferrer" className="underline">
+                {c.imageCredit.photographer}
+              </a>{" "}
+              · {c.imageCredit.provider}
+            </p>
           ) : null}
         </div>
       </section>
@@ -58,7 +67,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ slug: 
         <div className="mx-auto max-w-[1600px] px-4 py-20 md:px-8">
           <p className="eyebrow">{c.ribbonStat}</p>
           <p className="mt-4 max-w-2xl text-2xl">{c.bestFor}.</p>
-          <p className="mt-6 text-ink/60">{copy.channelPage.comingSoon}</p>
+          <MdxBody source={c.body} />
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
               href={`/planner?mode=budget&channels=${c.slug}`}

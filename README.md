@@ -9,8 +9,9 @@ Currently configured for **Silver Touch Media**. To rebrand, see [CLONING.md](CL
 |---|---|
 | M1 Scaffold: tokens, fonts, brand config, layout, nav, footer, brand-hardcode check | ✅ |
 | M2 Hero ribbon: WebGL curved ribbon, glass monogram, CSS fallback | ✅ (tuning welcome) |
-| M3 Content model: full channel schema, 18 channel guides, `/data` seeds | next |
-| M4 Pages · M5 Planner · M6 Polish and deploy | planned |
+| M3 Content model: full channel schema, 18 channel guides, `/data` seeds, image pipeline | ✅ |
+| M4 Pages | next |
+| M5 Planner · M6 Polish and deploy | planned |
 
 ## Run it
 
@@ -26,7 +27,8 @@ pnpm dev            # http://localhost:3000
 | `pnpm build` / `pnpm start` | Production build and server |
 | `pnpm check:brand` | Fails if brand strings appear outside `/brand`, `/content`, `/data` |
 | `pnpm images:brand` | Converts `/assets-src/brand` originals to AVIF/WebP + ribbon textures; rebuilds logo SVGs |
-| `pnpm test` | Vitest unit tests (`lib/**/*.test.ts`) |
+| `pnpm images:fetch` | Downloads 3 Unsplash/Pexels options per channel (keys in `.env.local`); choose at `/admin/image-picker` |
+| `pnpm test` | Vitest: INR formatting, content ↔ `/data` integrity, copy rules, frontmatter edits |
 | `pnpm verify` | Brand check, types, lint, tests, build |
 
 Hero testing: append `?ribbon=webgl` or `?ribbon=css` to force a mode.

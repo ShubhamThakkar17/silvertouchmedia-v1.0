@@ -11,9 +11,14 @@ Items marked **OPEN** need a decision from you.
    media-specific address when one exists (one-line change).
 2. **OPEN · Social URLs.** No Instagram / LinkedIn / YouTube handles were supplied, so the
    links point at the network home pages. Set them in `brand.config.ts` (empty string hides one).
-3. **OPEN · Ribbon stats need source checks.** The market figures on ribbon cards
-   (₹20,866 Cr print, ₹32,855 Cr TV, etc.) come from your brief and are marked
-   `verified: false` in frontmatter until M3 checks each one against the report.
+3. **OPEN · Two market figures still unverified.** All §7 figures were checked against
+   published coverage (PMAR 2026, FICCI-EY 2026, WPP Media Sporting Nation 2026, Kofluence
+   2026) and linked in `data/sources.ts`. Two remain `verified: false` until we find the
+   exact article: airports' share of transit media ("over 50%", Media4Growth) and real
+   estate's ~25% share of OOH (PMAR). The airport card's ribbon stat uses the first.
+4. **OPEN · Most cost ranges are placeholders.** Only hoardings (expressway and city rate
+   card) and railways (train media rate card) are seeded from real rate cards. Every
+   other range is a labelled planning placeholder for your media team to replace.
 
 ## M1 · Scaffold
 
@@ -79,3 +84,56 @@ Items marked **OPEN** need a decision from you.
   (`frameloop="never"`).
 - **Glass cube.** drei `MeshTransmissionMaterial` around the monogram extruded from
   `/public/images/logo/monogram.svg`, lit by procedural `Lightformer`s (no HDR download).
+
+## M2 tuning (after first review)
+
+- Hover chip is clamped inside the hero, so it no longer hangs off the edge for cut-off cards.
+- Colour split starts further out (`smoothstep(0.5, 1.15)`) and is about 15% weaker, so edge
+  labels stay readable while still splitting.
+- Monogram: smoother curves and bevel, lower emissive, more metal and env reflection, and a
+  slightly smaller scale so it reads as a solid object inside the glass, not a glowing blob.
+  Headless rendering cannot judge this; check on a real GPU.
+
+## M3 · Content model
+
+- **Editorial in MDX, numbers in /data.** Channel MDX frontmatter holds what a writer edits
+  (names, formats, funnel role, execution, FAQs, In the wild, guide body). Everything the
+  planner computes with (audience affinity, zones, tiers, industry and stage fit, costs,
+  ROI bands, market figures) lives in `/data` tables keyed by slug. `loadChannels()` merges
+  both into the brief's `ChannelData` and fails the build if a row is missing. One table per
+  concern lets the media team review a whole column at once instead of 18 files.
+- **Sources registry.** `data/sources.ts` holds every citation once (publisher, report, URL,
+  year, verified, date checked); figures point at it by id. Our rate cards and proposals are
+  `internal: true` with generic labels, so no vendor or client name can leak.
+- **Market figures.** PMAR 2026 is the single source for adex by medium. TV 2026F and digital
+  2025 are derived (traditional total minus the other media; total minus traditional) and
+  marked `derived`. The test suite checks that the media add up to PMAR's totals.
+- **Rates seeded from your files.** Expressway and city hoardings (₹25,000 to ₹1,75,000 a
+  month, print and mount about ₹14 per sq ft) and train media (LED ₹1.25 to 3 lakh a month,
+  headrest ₹8 lakh, magazine page ₹2 lakh, 3-month minimum) are `verified: true`. Proposals
+  calibrated creators, city pages, digital releases and CPL targets, without naming clients.
+  Upper bounds from trade press: IPL spot rates (exchange4media) and metro wraps up to ₹45
+  lakh (Storyboard18).
+- **Added `per-campaign` cost unit** for ambassadors, metro wraps and sports properties, which
+  are not sold per month or per insertion. Ambassador CPM equivalent is set high on purpose
+  so the planner never credits a fee with media impressions it does not buy.
+- **In the wild** links were researched on exchange4media, afaqs!, Social Samosa,
+  Media4Growth, Storyboard18 and Campaign India: 2 to 3 per channel, our own one-line summary,
+  no images. Where no clean brand case existed (search, native/PR), an industry article is
+  used and labelled "Industry view" or as Google-reported.
+- **Withheld names.** `brand/withheld-names.ts` lists proposal clients and rate-card vendors;
+  tests fail if any appears in content, data or copy. The file is never imported by app code.
+- **MDX rendering** uses `next-mdx-remote` 6 (RSC). Version 6 blocks JS expressions by default,
+  which is what we want for content files. The channel page renders the guide now; the full
+  12-section template is M4.
+- **Image pipeline.** `pnpm images:fetch` searches Unsplash and Pexels with each channel's
+  `stockQueries`, saves 3 WebP options (2000 px + 1024 px texture) and `credits.json`, and
+  pings Unsplash's download endpoint as its guidelines ask. Unsplash's API guidelines prefer
+  hotlinking; we store optimised local copies as the brief requires and credit the
+  photographer. Use `--provider=pexels` if you want to avoid that question entirely.
+- **Image picker** (`/admin/image-picker`) is dev only (404 in production). A pick rewrites
+  only the image lines of the MDX (tested), adds `imageCredit`, and clears `imageIsConcept`.
+  Channel pages show the credit; concept images keep the "Concept visual" caption.
+- **IMAGE_PROMPTS.md** now covers all 18 channels: the two needed now (airline, stadium) and
+  optional replacements for the rest.
+

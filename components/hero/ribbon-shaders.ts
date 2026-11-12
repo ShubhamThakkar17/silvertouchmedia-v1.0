@@ -53,9 +53,9 @@ float sdRoundRect(vec2 p, vec2 b, float r) {
 }
 
 void main() {
-  float edge = smoothstep(0.42, 1.12, abs(vNdcX));
+  float edge = smoothstep(0.5, 1.15, abs(vNdcX));
   float v = abs(uVel);
-  float split = edge * edge * 0.012 + v * (0.0015 + edge * 0.016);
+  float split = edge * edge * 0.010 + v * (0.0015 + edge * 0.014);
   vec2 dir = vec2(sign(vNdcX + 1e-4), 0.0);
   float blur = v * 0.022 * (0.2 + edge) + edge * edge * 0.004;
 

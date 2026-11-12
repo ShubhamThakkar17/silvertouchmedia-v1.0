@@ -176,7 +176,6 @@ export const copy = {
 
   channelPage: {
     backToChannels: "All channels",
-    comingSoon: "Full channel guide arrives in the next build milestone.",
     planCta: "Plan a campaign with",
   },
 
@@ -207,5 +206,6 @@ export const copy = {
     indicative:
       "Indicative ranges for planning. Final rates depend on city, inventory, season and negotiation.",
     concept: "Concept visual",
+    photoBy: "Photo:",
   },
 } as const;

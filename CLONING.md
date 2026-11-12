@@ -28,11 +28,20 @@ names, colours, copy or contacts; everything comes from four places.
    `/public/images/logo` (single colour, any fill; the site masks them to the text colour).
    The hero's 3D monogram is extruded from `monogram.svg`.
 7. **Images** – put originals in `assets-src/brand/` (git-ignored) and run
-   `pnpm images:brand`. Then point each channel's `heroImage` / `cardImage` in
-   `/content/channels/*.mdx` at the new files.
-8. **Channels & data** – edit `/content/channels/*.mdx` (add, remove or reorder; `order`
-   controls the ribbon) and the rates in `/data`. Anything without a vendor rate card
-   stays `verified: false` and shows on `/admin/data-audit`.
+   `pnpm images:brand`. For stock photos, add Unsplash/Pexels keys to `.env.local`, run
+   `pnpm images:fetch`, then choose per channel at `/admin/image-picker` (`pnpm dev`).
+   The picker writes `heroImage`, `cardImage` and the photo credit into the channel MDX.
+8. **Channels & data** – each channel is one MDX file in `/content/channels` (editorial:
+   names, formats, funnel, FAQs, In the wild links, guide body; `order` controls the
+   ribbon). Its numbers live in `/data`, keyed by the channel slug: audience affinity
+   (`audiences.ts`), zones and tiers (`regions.ts`), industry fit (`industries.ts`), stage
+   fit and every planner knob (`planner-weights.ts`), costs and ROI bands
+   (`benchmarks.ts`), market figures (`market.ts`) and their citations (`sources.ts`).
+   Adding or removing a channel means one MDX file plus one row in each table;
+   `pnpm test` fails if a row is missing. Anything without a vendor rate card stays
+   `verified: false` and shows on `/admin/data-audit`.
+   List client and vendor names that must never appear publicly in
+   `brand/withheld-names.ts`; the tests scan `/content`, `/data` and copy for them.
 9. **Environment** – copy `.env.example` to `.env.local` and fill in the keys
    (Resend, Sheets webhook, Turnstile, analytics).
 10. **Check & deploy** – `pnpm check:brand && pnpm build`, then deploy to Vercel.

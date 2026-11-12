@@ -35,10 +35,10 @@ export function CentreObject({
     const geo = new THREE.ExtrudeGeometry(shapes, {
       depth: 70,
       bevelEnabled: true,
-      bevelThickness: 8,
-      bevelSize: 5,
-      bevelSegments: 3,
-      curveSegments: 16,
+      bevelThickness: 10,
+      bevelSize: 6,
+      bevelSegments: 5,
+      curveSegments: 32,
     });
     geo.computeBoundingBox();
     const bb = geo.boundingBox!;
@@ -47,7 +47,7 @@ export function CentreObject({
     const centre = new THREE.Vector3();
     bb.getCenter(centre);
     geo.translate(-centre.x, -centre.y, -centre.z);
-    const s = (CUBE * 0.64) / Math.max(sizeV.x, sizeV.y);
+    const s = (CUBE * 0.58) / Math.max(sizeV.x, sizeV.y);
     geo.scale(s, -s, s); // SVG y axis points down
     geo.computeVertexNormals();
     return geo;
@@ -113,9 +113,10 @@ export function CentreObject({
             <meshStandardMaterial
               color={coral}
               emissive={coral}
-              emissiveIntensity={0.6}
-              metalness={0.35}
-              roughness={0.25}
+              emissiveIntensity={0.28}
+              metalness={0.55}
+              roughness={0.18}
+              envMapIntensity={1.4}
             />
           </mesh>
           <RoundedBox args={[CUBE, CUBE, CUBE]} radius={0.09} smoothness={5}>
@@ -129,7 +130,7 @@ export function CentreObject({
               thickness={0.32}
               roughness={0}
               ior={1.18}
-              chromaticAberration={0.04}
+              chromaticAberration={0.025}
               anisotropy={0.1}
               distortion={0.04}
               distortionScale={0.4}
