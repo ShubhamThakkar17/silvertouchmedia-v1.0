@@ -1,0 +1,11 @@
+# Keep originals, local builds and dev tooling out of Vercel uploads.
+/assets-src
+/.next
+/.next-prod
+/node_modules
+/.claude
+.env
+.env.local
+.env.*.local
+/test-results
+/playwright-report

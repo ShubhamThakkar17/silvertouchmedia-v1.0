@@ -173,3 +173,15 @@ Items marked **OPEN** need a decision from you.
 - **Not built in M4 (by plan):** `/planner` and `/planner-methodology` (M5); `/insights`,
   `/privacy`, `/terms` (M6). They still show the branded "in production" page.
 
+## Preview deploy (after M4)
+
+- **Security upgrade.** Vercel refused to build Next.js 15.5.4 (CVE-2025-66478, the React Server
+  Components vulnerability). Upgraded to Next.js 15.5.28 and React 19.1.10, the latest patched
+  releases that are at least a few weeks old. Full verify passes on the new versions.
+- **Vercel project** `stm-website-preview` under your personal team, deployed from the CLI as a
+  **preview** (not production). `.vercelignore` keeps `/assets-src`, local builds and env files
+  out of the upload. No environment variables are set yet, so lead delivery and analytics are
+  off; `NEXT_PUBLIC_SITE_URL` falls back to localhost for canonical URLs until a domain exists.
+- The very first CLI attempt defaulted to the production target and failed on the Next.js check,
+  so nothing was ever live in production.
+
