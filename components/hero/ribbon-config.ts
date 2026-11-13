@@ -15,7 +15,7 @@ export const RIBBON = {
   maxVelocity: 26,
   damping: 2.6, // per second, exponential
   hoverStraighten: 0.55,
-  textureWidth: 1024,
+  textureWidth: 800,
   maxTheta: 1.85, // radians; cards beyond this are hidden
 } as const;
 

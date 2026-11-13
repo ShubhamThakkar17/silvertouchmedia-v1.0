@@ -27,3 +27,28 @@ size-matched fallback font at first paint (`display: swap`) and LCP is 0.9 to 1.
 
 Re-run: `pnpm build && pnpm start -p 3000`, then
 `npx lighthouse@13.5.0 http://localhost:3000/ --only-categories=performance,accessibility,best-practices,seo`.
+
+## Desktop (after the performance pass)
+
+| Page | Performance | TBT | Page weight |
+|---|---|---|---|
+| Home (`/`), before | 70 | 910 ms | 1.97 MB |
+| Home (`/`), after | 100 (4 of 5 runs; one run 73 when the 3D setup fell inside the measurement window) | 20 ms | 865 KB |
+| Channel, Market | 100 | 0 ms | 0.5 to 0.65 MB |
+
+Headless Lighthouse renders WebGL in software, so the 3D hero's one-off setup cost is
+exaggerated here; on a real GPU it is a fraction of that.
+
+What changed:
+
+- The channel list's hover preview no longer downloads all 18 card images up front (1.1 MB);
+  an image loads the first time its row is hovered.
+- The 3D ribbon starts after the page has loaded and the browser is idle (or on first
+  interaction). The poster carousel shows the same animated cards until then.
+- Card textures are built one per frame instead of all at once (removes a 1.4 s freeze), at
+  800 px instead of 1024 px.
+- The glass cube mounts after the ribbon, with a lighter glass pass (512 px, 4 samples) and a
+  smaller environment bake, and the canvas pixel ratio is capped at 1.5.
+- Serverless functions (planner page, lead APIs) run in Mumbai (`bom1`) via `vercel.json`;
+  images get a one-year immutable cache header; the attribution middleware only runs on a first
+  visit or a campaign link.

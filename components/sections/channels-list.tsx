@@ -21,6 +21,10 @@ export function ChannelsList({
   const categories = useMemo(() => Array.from(new Set(channels.map((c) => c.category))), [channels]);
   const [cat, setCat] = useState<ChannelCategory | "all">("all");
   const [active, setActive] = useState<string | null>(null);
+  const [seen, setSeen] = useState<Set<string>>(() => new Set());
+  useEffect(() => {
+    if (active && !seen.has(active)) setSeen((prev) => new Set(prev).add(active));
+  }, [active, seen]);
   const [enabled, setEnabled] = useState(false);
   const preview = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
@@ -112,13 +116,13 @@ export function ChannelsList({
           style={{ opacity: active ? 1 : 0, transition: "opacity .25s" }}
         >
           <div className="relative aspect-[3/2] overflow-hidden rounded-[14px] shadow-2xl">
-            {channels.map((c) => (
+            {/* Only images that have been hovered are mounted, so nothing downloads until the list is used. */}
+            {channels.filter((c) => seen.has(c.slug)).map((c) => (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 key={c.slug}
                 src={c.cardImage}
                 alt=""
-                loading="lazy"
                 decoding="async"
                 className="absolute inset-0 size-full object-cover transition-[opacity,transform] duration-300"
                 style={{ opacity: active === c.slug ? 1 : 0, transform: active === c.slug ? "scale(1)" : "scale(1.06)" }}

@@ -108,7 +108,7 @@ export function CentreObject({
 
   return (
     <>
-      <Environment resolution={256}>
+      <Environment resolution={128}>
         <Lightformer form="rect" intensity={2.2} position={[0, 4, 2]} scale={[10, 2, 1]} />
         <Lightformer form="rect" intensity={1.4} color={coral} position={[-5, -1, 1]} scale={[3, 6, 1]} />
         <Lightformer form="rect" intensity={1.1} color="#9FD9C0" position={[5, 0, -1]} scale={[3, 6, 1]} />
@@ -142,8 +142,8 @@ export function CentreObject({
             <MeshTransmissionMaterial
               backside
               backsideThickness={0.2}
-              samples={6}
-              resolution={1024}
+              samples={4}
+              resolution={512}
               background={glassBackground}
               transmission={1}
               thickness={0.32}

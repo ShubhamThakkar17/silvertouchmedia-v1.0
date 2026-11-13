@@ -44,6 +44,26 @@ export function HeroShell({ cards, copy, colors, monogramUrl }: Props) {
   const total = cards.length * spacing;
   const webgl = mode === "webgl";
 
+  // Start the 3D ribbon once the page has loaded and the browser is idle (or on first
+  // interaction), so its download and setup never compete with the first paint.
+  const [start3d, setStart3d] = useState(false);
+  useEffect(() => {
+    if (!webgl || start3d) return;
+    let done = false;
+    const go = () => {
+      if (done) return;
+      done = true;
+      setStart3d(true);
+    };
+    const evs = ["pointermove", "pointerdown", "wheel", "keydown", "touchstart"] as const;
+    evs.forEach((e) => window.addEventListener(e, go, { once: true, passive: true }));
+    const idle = () =>
+      typeof window.requestIdleCallback === "function" ? window.requestIdleCallback(go, { timeout: 1500 }) : setTimeout(go, 600);
+    if (document.readyState === "complete") idle();
+    else window.addEventListener("load", idle, { once: true });
+    return () => evs.forEach((e) => window.removeEventListener(e, go));
+  }, [webgl, start3d]);
+
   // Wire store callbacks (DOM writes only, no re-render per frame).
   useEffect(() => {
     const s = store.current;
@@ -216,7 +236,7 @@ export function HeroShell({ cards, copy, colors, monogramUrl }: Props) {
           animate={{ opacity: ready ? 1 : 0 }}
           transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <RibbonCanvas cards={cards} store={store} active={active} colors={colors} monogramUrl={monogramUrl} />
+          {start3d ? <RibbonCanvas cards={cards} store={store} active={active} colors={colors} monogramUrl={monogramUrl} /> : null}
         </motion.div>
       ) : null}
 

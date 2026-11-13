@@ -287,3 +287,14 @@ Items marked **OPEN** need a decision from you.
 - Logo SVGs now use a solid fill instead of `currentColor`; they are only used as CSS masks, and
   the 3D loader warned on `currentColor`.
 
+## Performance pass and GitHub → Vercel (after M6)
+
+- **GitHub connected to Vercel** (`vercel git connect`). Every push now builds on Vercel. Which
+  branch deploys to production is set in Vercel → Settings → Git → Production Branch; until that
+  is `main`, pushes to `main` create preview deployments (behind Vercel login).
+- **Desktop home page:** weight 1.97 MB → 865 KB, blocking time 910 ms → 20 ms, Lighthouse 70 →
+  100. Details in `docs/lighthouse.md`. Visual changes are minimal: the 3D ribbon fades in a beat
+  later (over the same poster cards), and the glass cube appears just after the ribbon.
+- **`vercel.json`:** functions in `bom1` (Mumbai) for Indian visitors; immutable caching for
+  `/images` and `/fonts`.
+

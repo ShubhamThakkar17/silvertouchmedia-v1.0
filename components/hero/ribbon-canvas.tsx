@@ -32,7 +32,7 @@ export default function RibbonCanvas({ cards, store, active, colors, monogramUrl
   return (
     <Canvas
       frameloop={active ? "always" : "never"}
-      dpr={[1, 1.75]}
+      dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       camera={{ position: [0, 0, RIBBON.camZ], fov: RIBBON.fov, near: 0.1, far: 60 }}
       style={{ position: "absolute", inset: 0 }}
@@ -46,9 +46,29 @@ export default function RibbonCanvas({ cards, store, active, colors, monogramUrl
     >
       <ResponsiveCamera />
       <Ribbon cards={cards} store={store} colors={colors} />
-      <CentreObject store={store} coral={colors.coral} silver={colors.silver} ink={colors.ink} monogramUrl={monogramUrl} />
+      <Deferred>
+        <CentreObject store={store} coral={colors.coral} silver={colors.silver} ink={colors.ink} monogramUrl={monogramUrl} />
+      </Deferred>
     </Canvas>
   );
+}
+
+/**
+ * Mounts its children once the ribbon has had a moment to set up, so the glass cube's
+ * shader compile and environment bake run in a separate task from the ribbon's.
+ */
+function Deferred({ children }: { children: React.ReactNode }) {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const go = () => setShow(true);
+    const id =
+      typeof window.requestIdleCallback === "function" ? window.requestIdleCallback(go, { timeout: 1200 }) : window.setTimeout(go, 500);
+    return () => {
+      if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(id);
+      clearTimeout(id);
+    };
+  }, []);
+  return show ? <>{children}</> : null;
 }
 
 /** Pull the camera back on narrower viewports so ~5 cards stay in view. */
@@ -135,9 +155,14 @@ function Ribbon({
       .sort((a, b) => Math.min(a, cards.length - a) - Math.min(b, cards.length - b));
     let loaded = 0;
     let readyFired = false;
-    order.forEach((i) => {
-      buildCardSurface(cards[i], cards.length, palette)
-        .then((surface) => {
+    // Build one card per frame (centre-out) instead of all at once, so the main thread is
+    // never blocked by a long burst of canvas drawing and texture uploads.
+    const nextFrame = () => new Promise<void>((r) => requestAnimationFrame(() => r()));
+    (async () => {
+      for (const i of order) {
+        if (cancelled) return;
+        try {
+          const surface = await buildCardSurface(cards[i], cards.length, palette);
           if (cancelled) return surface.texture.dispose();
           surfaces.current[i] = surface;
           setTextures((prev) => {
@@ -145,16 +170,17 @@ function Ribbon({
             next[i] = surface.texture;
             return next;
           });
-        })
-        .catch(() => {})
-        .finally(() => {
-          loaded++;
-          if (!readyFired && (loaded >= Math.min(8, cards.length) || loaded === cards.length)) {
-            readyFired = true;
-            store.current.onReady?.();
-          }
-        });
-    });
+        } catch {
+          /* skip a failed card */
+        }
+        loaded++;
+        if (!readyFired && (loaded >= Math.min(8, cards.length) || loaded === cards.length)) {
+          readyFired = true;
+          store.current.onReady?.();
+        }
+        await nextFrame();
+      }
+    })();
     return () => {
       cancelled = true;
     };
