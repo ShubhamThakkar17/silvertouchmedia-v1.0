@@ -199,7 +199,7 @@ export function HeroShell({ cards, copy, colors, monogramUrl }: Props) {
     >
       {/* Poster / fallback */}
       <motion.div
-        className="absolute inset-x-0 top-[14%] z-[1] md:top-[16%]"
+        className="absolute inset-x-0 top-[22%] z-[1] sm:top-[14%] md:top-[16%]"
         initial={false}
         animate={{ opacity: webgl && ready ? 0 : 1 }}
         transition={{ duration: 0.8 }}

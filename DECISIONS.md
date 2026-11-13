@@ -230,3 +230,19 @@ Items marked **OPEN** need a decision from you.
 - **Not live yet:** with no `RESEND_API_KEY`, `SHEETS_WEBHOOK_URL` or Turnstile keys set, leads
   are validated and the PDF is generated, but nothing is emailed or written to a Sheet.
 
+## Hero motion graphics (after M5 review)
+
+- **All 18 hero cards are code-drawn motion graphics** (your call: the 16 concept photos plus 2
+  vector placeholders looked uneven). One module, `components/hero/motion/scenes.ts`, draws every
+  scene in the same style: ink panel, coral and indigo glow, dot grid, silver line art, coral
+  media surface, mint as the only second accent. No text inside scenes.
+- **One source, two renderers.** The WebGL ribbon draws scenes into each card's canvas texture and
+  re-uploads at most two textures per frame (about 30fps per visible card, no mipmaps). The CSS
+  fallback and the desktop poster draw the same scenes in a `<canvas>` that animates only while
+  on screen and shows a still frame under reduced motion.
+- **Channel pages, the channel list preview and the shared-element transition keep the concept
+  photos.** Only the hero changed, as requested.
+- **Phone cards are 4:3** (were 4:5) so scenes, designed at 3:2, crop cleanly.
+- `/admin/scenes` (dev only) shows all 18 side by side for review. A channel a clone adds without
+  a scene falls back to the radar-rings animation.
+

@@ -3,11 +3,22 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import * as THREE from "three";
-import { buildCardTexture } from "./card-texture";
+import { theme } from "@/brand/theme";
+import { buildCardSurface, type CardSurface } from "./card-texture";
 import { CentreObject } from "./centre-object";
 import { RIBBON, bendPoint, spacing, thetaOf, wrap } from "./ribbon-config";
 import { cardFragment, cardVertex } from "./ribbon-shaders";
 import type { HeroCard, RibbonStore } from "./ribbon-store";
+
+const palette = {
+  coral: theme.colors.coral,
+  ink: theme.colors.ink,
+  ink2: theme.colors.ink2,
+  paper: theme.colors.paper,
+  silver: theme.colors.silver,
+  mint: theme.colors.mint,
+  indigo: theme.colors.indigo,
+};
 
 type Props = {
   cards: HeroCard[];
@@ -110,6 +121,12 @@ function Ribbon({
     [cards, colors.coral, colors.label, totalH],
   );
 
+  // Motion-graphic surfaces, redrawn round-robin while visible (see useFrame).
+  const surfaces = useRef<(CardSurface | null)[]>(cards.map(() => null));
+  const lastDraw = useRef<number[]>(cards.map(() => -1));
+  const clock = useRef(0);
+  const cursor = useRef(0);
+
   // Load textures centre-out so the visible cards appear first.
   useEffect(() => {
     let cancelled = false;
@@ -119,12 +136,13 @@ function Ribbon({
     let loaded = 0;
     let readyFired = false;
     order.forEach((i) => {
-      buildCardTexture(cards[i], cards.length)
-        .then((tex) => {
-          if (cancelled) return tex.dispose();
+      buildCardSurface(cards[i], cards.length, palette)
+        .then((surface) => {
+          if (cancelled) return surface.texture.dispose();
+          surfaces.current[i] = surface;
           setTextures((prev) => {
             const next = prev.slice();
-            next[i] = tex;
+            next[i] = surface.texture;
             return next;
           });
         })
@@ -246,6 +264,20 @@ function Ribbon({
       u.uVel.value = smoothVel.current;
       const target = textures[i] ? 1 : 0;
       u.uOpacity.value += (target - u.uOpacity.value) * Math.min(1, dt * 3);
+    }
+
+    // --- motion graphics: at most 2 texture uploads per frame, ~30fps per visible card ---
+    clock.current += dt;
+    let uploads = 0;
+    for (let k = 0; k < cards.length && uploads < 2; k++) {
+      const i = (cursor.current + k) % cards.length;
+      const surf = surfaces.current[i];
+      if (!surf || Math.abs(thetaOf(cardXs.current[i])) > 1.25) continue;
+      if (clock.current - lastDraw.current[i] < 1 / 30) continue;
+      surf.draw(clock.current + i * 0.37);
+      lastDraw.current[i] = clock.current;
+      uploads++;
+      cursor.current = (i + 1) % cards.length;
     }
 
     // --- DOM callbacks ---

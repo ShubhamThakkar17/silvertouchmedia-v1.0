@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { SceneCanvas } from "./motion/scene-canvas";
 import type { HeroCard } from "./ribbon-store";
 
 /**
- * CSS-only curved carousel. Used as the static poster before WebGL hydrates,
+ * CSS curved carousel with the same motion-graphic scenes as the WebGL ribbon. Used as the static poster before WebGL hydrates,
  * and as the full experience on mobile, low-power and reduced-motion devices.
  */
 export function FallbackCarousel({
@@ -36,19 +37,8 @@ export function FallbackCarousel({
               </span>
               <span className="shrink-0 opacity-70">{c.ribbonStat}</span>
             </span>
-            <span className="relative block aspect-[4/5] overflow-hidden sm:aspect-[3/2] rounded-[10px] bg-ink-2">
-              {/* Plain img keeps the poster light; these are 1024px WebP textures. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={c.cardImage}
-                alt=""
-                width={1024}
-                height={683}
-                loading={i < 3 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : undefined}
-                decoding="async"
-                className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-              />
+            <span className="relative block aspect-[4/3] overflow-hidden rounded-[10px] bg-ink-2 sm:aspect-[3/2]">
+              <SceneCanvas slug={c.slug} seed={i} className="transition-transform duration-500 group-hover:scale-[1.03]" />
             </span>
           </Link>
         </li>

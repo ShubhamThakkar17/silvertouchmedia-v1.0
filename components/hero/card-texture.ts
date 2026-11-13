@@ -1,17 +1,7 @@
 import * as THREE from "three";
 import { RIBBON } from "./ribbon-config";
+import { drawScene, type Palette } from "./motion/scenes";
 import type { HeroCard } from "./ribbon-store";
-
-function loadImage(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.decoding = "async";
-    img.crossOrigin = "anonymous";
-    img.onload = () => resolve(img);
-    img.onerror = reject;
-    img.src = src;
-  });
-}
 
 let monoFamily: string | null = null;
 async function getMonoFamily() {
@@ -26,28 +16,29 @@ async function getMonoFamily() {
   return monoFamily;
 }
 
+export type CardSurface = {
+  texture: THREE.CanvasTexture;
+  /** Redraws the motion-graphic area for time t (seconds) and flags the texture for upload. */
+  draw: (t: number) => void;
+};
+
 /**
- * One canvas per card: mono label strip on top (white text on transparent),
- * photo cover-fitted below. Rounded corners and tinting happen in the shader.
+ * One canvas per card: mono label strip on top (drawn once, white on transparent) and the
+ * channel's motion-graphic scene below (redrawn while visible). Rounded corners, RGB split
+ * and label tint happen in the shader.
  */
-export async function buildCardTexture(card: HeroCard, total: number): Promise<THREE.CanvasTexture> {
+export async function buildCardSurface(card: HeroCard, total: number, palette: Palette): Promise<CardSurface> {
   const W = RIBBON.textureWidth;
   const totalH = RIBBON.photoH + RIBBON.labelH;
   const H = Math.round((W * totalH) / RIBBON.cardW);
   const labelPx = Math.round((H * RIBBON.labelH) / totalH);
   const photoPx = H - labelPx;
 
-  const [img, family] = await Promise.all([loadImage(card.cardImage), getMonoFamily()]);
+  const family = await getMonoFamily();
   const canvas = document.createElement("canvas");
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext("2d")!;
-
-  // Photo, cover fit
-  const scale = Math.max(W / img.width, photoPx / img.height);
-  const dw = img.width * scale;
-  const dh = img.height * scale;
-  ctx.drawImage(img, (W - dw) / 2, labelPx + (photoPx - dh) / 2, dw, dh);
 
   // Label
   const pad = String(total).length;
@@ -68,9 +59,15 @@ export async function buildCardTexture(card: HeroCard, total: number): Promise<T
 
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 8;
-  tex.generateMipmaps = true;
-  tex.minFilter = THREE.LinearMipmapLinearFilter;
-  tex.needsUpdate = true;
-  return tex;
+  // Frequent uploads: skip mipmaps, keep it crisp with linear filtering + anisotropy.
+  tex.generateMipmaps = false;
+  tex.minFilter = THREE.LinearFilter;
+  tex.anisotropy = 4;
+
+  const draw = (t: number) => {
+    drawScene(ctx, card.slug, t, palette, 0, labelPx, W, photoPx);
+    tex.needsUpdate = true;
+  };
+  draw(1.2 + card.order * 0.37); // a staggered first frame so cards are not in lockstep
+  return { texture: tex, draw };
 }
