@@ -112,7 +112,7 @@ async function renderPlaceholders(manifest: Record<string, Entry>) {
   }
 }
 
-/** Splits the source logo into monogram / wordmark SVGs (fill = currentColor).
+/** Splits the source logo into monogram / wordmark SVGs (solid fill; used as CSS masks, so colour comes from the text).
  *  Paths 13+ in the source are a sub-brand line that must not appear on this site. */
 async function buildLogos() {
   const srcPath = path.join(ROOT, "assets-src/logo/source-logo.svg");
@@ -126,7 +126,7 @@ async function buildLogos() {
   const write = (file: string, vb: string, ds: string[]) =>
     fs.writeFile(
       path.join(out, file),
-      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" fill="currentColor">${ds.map((d) => `<path d="${d}"/>`).join("")}</svg>\n`,
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" fill="#000">${ds.map((d) => `<path d="${d}"/>`).join("")}</svg>\n`,
     );
   await write("monogram.svg", "796 648 440 482", monogram);
   await write("wordmark.svg", "355 1168 1330 205", wordmark);

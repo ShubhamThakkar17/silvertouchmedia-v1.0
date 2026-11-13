@@ -277,3 +277,13 @@ Items marked **OPEN** need a decision from you.
 - **Smoke tests:** `pnpm test:e2e` runs Playwright on desktop and a Pixel 7: home, mobile fallback,
   channel page, both planner modes, lead and plan APIs (PDF bytes checked), and axe on key pages.
 
+## Hero cube placement (after M6 review)
+
+- The glass cube with the monogram moved from the centre of the ribbon to the bottom right,
+  where it no longer covers the cards. Its position and size are computed from the visible area
+  at its depth (`ANCHOR` in `components/hero/centre-object.tsx`: 7% from the right, 16% from the
+  bottom, outer ring 27% of the hero height), so it stays clear of the card band, the headline
+  and the help text on any desktop size. The phone carousel never shows the cube.
+- Logo SVGs now use a solid fill instead of `currentColor`; they are only used as CSS masks, and
+  the 3D loader warned on `currentColor`.
+

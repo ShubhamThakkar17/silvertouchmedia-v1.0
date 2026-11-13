@@ -1,13 +1,22 @@
 "use client";
 
 import { Environment, Lightformer, MeshTransmissionMaterial, RoundedBox } from "@react-three/drei";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { useMemo, useRef, type MutableRefObject } from "react";
 import * as THREE from "three";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader.js";
 import type { RibbonStore } from "./ribbon-store";
 
 const CUBE = 1.08;
+const DEPTH = 2.3;
+const OUTER_RING = 1.5;
+
+/**
+ * Where the object sits, as fractions of the visible area at its depth: bottom right,
+ * clear of the headline (bottom left), the card band (upper middle) and the help text.
+ * `size` is the outer-ring diameter as a share of the visible height.
+ */
+const ANCHOR = { right: 0.07, bottom: 0.16, size: 0.27 };
 
 /** Glass cube with the extruded brand monogram inside, radar rings and an orbiting dot. */
 export function CentreObject({
@@ -28,6 +37,8 @@ export function CentreObject({
   const dot = useRef<THREE.Mesh>(null);
   const rings = useRef<THREE.Group>(null);
   const svg = useLoader(SVGLoader, monogramUrl);
+  const { viewport, camera } = useThree();
+  const anchorRef = useRef(new THREE.Vector3(0, 0, DEPTH));
   const glassBackground = useMemo(() => new THREE.Color(ink), [ink]);
 
   const monogram = useMemo(() => {
@@ -65,6 +76,14 @@ export function CentreObject({
   useFrame((state, rawDt) => {
     const dt = Math.min(rawDt, 1 / 20);
     const t = state.clock.elapsedTime;
+    if (group.current) {
+      // Responsive bottom-right anchor (recomputed per frame: cheap, and follows resizes).
+      const v = viewport.getCurrentViewport(camera, anchorRef.current.set(0, 0, DEPTH));
+      const scale = (ANCHOR.size * v.height) / (OUTER_RING * 2);
+      const r = OUTER_RING * scale;
+      group.current.scale.setScalar(scale);
+      group.current.position.set(v.width / 2 - r - ANCHOR.right * v.width, -v.height / 2 + r + ANCHOR.bottom * v.height, DEPTH);
+    }
     const p = store.current.pointer ?? { x: 0, y: 0 };
     if (group.current) {
       group.current.rotation.y += (p.x * 0.35 - group.current.rotation.y) * dt * 2.5;
@@ -96,7 +115,7 @@ export function CentreObject({
         <Lightformer form="ring" intensity={1.6} position={[0, 0, 6]} scale={3} />
       </Environment>
       <ambientLight intensity={0.25} />
-      <group ref={group} position={[0, 0.5, 2.3]}>
+      <group ref={group} position={[0, 0.5, DEPTH]}>
         <group ref={rings} rotation={[0.12, 0, 0]}>
           {ringGeos.map((g, i) => (
             <lineLoop key={i} geometry={g}>
