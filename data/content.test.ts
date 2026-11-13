@@ -93,7 +93,7 @@ describe("copy rules", () => {
     for (const [f, text] of publicText) expect(text.includes("—"), f).toBe(false);
   });
 
-  it("never names withheld clients or vendors", () => {
+  it.skipIf(WITHHELD_NAMES.length === 0)("never names withheld clients or vendors", () => {
     const dataText = filesIn("data", /\.ts$/)
       .filter((f) => !f.endsWith(".test.ts"))
       .map((f) => [f, fs.readFileSync(f, "utf8")] as const);

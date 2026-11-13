@@ -50,3 +50,6 @@ next-env.d.ts
 /.next-prod/
 /.claude/
 /.next-demo/
+
+# Client/vendor names for the withheld-names test (never commit)
+/brand/withheld-names.local.json
