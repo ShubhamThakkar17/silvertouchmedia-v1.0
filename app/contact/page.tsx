@@ -8,7 +8,7 @@ import { whatsappUrl } from "@/lib/whatsapp";
 const t = copy.contactPage;
 
 export const metadata: Metadata = {
-  title: `Contact | ${brand.name}`,
+  title: `Contact`,
   description: t.body,
   alternates: { canonical: "/contact" },
 };
@@ -86,7 +86,7 @@ export default function ContactPage() {
             </div>
             <dl className="grid gap-4 rounded-[var(--brand-radius-card)] border border-ink/10 p-7">
               <div>
-                <dt className="mono-label text-ink/55">{t.callCta}</dt>
+                <dt className="mono-label text-ink/65">{t.callCta}</dt>
                 <dd className="mt-1 text-xl">
                   <a href={`tel:${brand.contact.phoneE164}`} className="hover:text-coral">
                     {brand.contact.phone}
@@ -94,7 +94,7 @@ export default function ContactPage() {
                 </dd>
               </div>
               <div>
-                <dt className="mono-label text-ink/55">{t.emailCta}</dt>
+                <dt className="mono-label text-ink/65">{t.emailCta}</dt>
                 <dd className="mt-1 break-all text-xl">
                   <a href={`mailto:${brand.contact.email}`} className="hover:text-coral">
                     {brand.contact.email}

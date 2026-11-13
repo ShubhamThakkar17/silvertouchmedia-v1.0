@@ -3,6 +3,7 @@ import { brand, theme, themeCssVars } from "@/brand";
 import { fontVariables } from "@/brand/fonts";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { Consent } from "@/components/analytics/consent";
 import { EventClicks } from "@/components/analytics/event-clicks";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { getChannels } from "@/lib/content/channels";
@@ -23,6 +24,41 @@ export const metadata: Metadata = {
   },
 };
 
+function orgJsonLd() {
+  const url = brand.seo.siteUrl;
+  const sameAs = brand.socials.map((s) => s.url).filter((u) => !/^https:\/\/(www\.)?[a-z]+\.com\/?$/.test(u));
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: brand.name,
+      url,
+      logo: `${url}${brand.logo.lockup}`,
+      email: brand.contact.email,
+      telephone: brand.contact.phoneE164,
+      ...(sameAs.length ? { sameAs } : {}),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      name: brand.name,
+      url,
+      image: `${url}${brand.logo.lockup}`,
+      description: brand.seo.description,
+      telephone: brand.contact.phoneE164,
+      email: brand.contact.email,
+      areaServed: { "@type": "Country", name: brand.seo.areaServed },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: brand.address.locality,
+        addressRegion: brand.address.region,
+        addressCountry: brand.address.countryCode,
+      },
+      geo: { "@type": "GeoCoordinates", latitude: brand.address.geo.lat, longitude: brand.address.geo.lng },
+    },
+  ];
+}
+
 export const viewport: Viewport = {
   themeColor: theme.colors.ink,
   colorScheme: "dark light",
@@ -41,6 +77,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeader channelCount={channelCount} />
         <main id="main">{children}</main>
         <SiteFooter />
+        <Consent ga4Id={process.env.NEXT_PUBLIC_GA4_ID || undefined} pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID || undefined} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd()) }} />
       </body>
     </html>
   );

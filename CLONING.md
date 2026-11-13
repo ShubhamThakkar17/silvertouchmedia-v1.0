@@ -52,5 +52,24 @@ names, colours, copy or contacts; everything comes from four places.
 
 ## Proving it
 
-`brand/brand.demo.config.ts` (added in M6) swaps in a fictional brand. Run
-`BRAND=demo pnpm dev` to see the whole site rebrand without touching a component.
+`brand/brand.demo.config.ts` defines a fictional agency (Kestrel Media) with its own name,
+contacts, colours and logo. Build or run with `NEXT_PUBLIC_BRAND=demo`:
+
+```bash
+NEXT_PUBLIC_BRAND=demo pnpm dev
+```
+
+The whole site rebrands without touching a component, including the hero motion graphics, charts,
+PDF colours and share images. Screenshots: `docs/demo-brand/`.
+
+## Fonts
+
+`brand/fonts.ts` holds the three web fonts plus a tiny "symbols" subset (₹, arrows, ≈,
+superscripts) cut from the brand fonts, so pages never download large extended font files just
+for the rupee sign. If you change typefaces, rebuild the subsets:
+
+```bash
+pyftsubset YourFont.ttf --unicodes="U+20B9,U+2190-2199,U+2248,U+2070-2079" --flavor=woff2 --output-file=brand/fonts/symbols-body-400.woff2
+```
+
+The PDF uses TTFs in `brand/pdf-fonts/` (they must contain ₹).

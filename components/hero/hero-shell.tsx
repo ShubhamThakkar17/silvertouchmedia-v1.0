@@ -261,7 +261,7 @@ export function HeroShell({ cards, copy, colors, monogramUrl }: Props) {
             <p className="mono-label text-silver/80">{copy.eyebrow}</p>
             <h1 className="mt-4 text-[clamp(2rem,4.2vw,4.4rem)] font-semibold leading-[0.98] tracking-[-0.03em]">
               <span className="block text-paper">{copy.headline}</span>
-              <span className="block text-paper/45">{copy.subline}</span>
+              <span className="block text-paper/60">{copy.subline}</span>
             </h1>
           </div>
           <p className="mono-label hidden max-w-[16rem] text-right text-silver/60 lg:block">

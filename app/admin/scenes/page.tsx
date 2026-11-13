@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SceneCanvas } from "@/components/hero/motion/scene-canvas";
+import { adminAllowed } from "@/lib/admin";
 import { loadChannels } from "@/lib/content/load-channels";
 
 export const metadata: Metadata = { title: "Hero scenes", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
-/** Dev-only review sheet for the 18 hero motion graphics. 404 in production. */
+/** Review sheet for the 18 hero motion graphics. Dev and Vercel previews only. */
 export default function ScenesPage() {
-  if (process.env.NODE_ENV === "production") notFound();
+  if (!adminAllowed()) notFound();
   const channels = loadChannels();
   return (
     <div className="bg-ink px-4 pb-24 pt-28 text-paper md:px-8">

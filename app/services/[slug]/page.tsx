@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { brand, copy } from "@/brand";
+import { copy } from "@/brand";
 import { MdxBody } from "@/components/content/mdx-body";
 import { PillLink } from "@/components/ui/pill-link";
 import { Section } from "@/components/ui/section";
@@ -19,7 +19,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const s = getService((await params).slug);
   if (!s) return {};
-  return { title: `${s.name} | ${brand.name}`, description: `${s.headline} ${s.outcome}`, alternates: { canonical: `/services/${s.slug}` } };
+  return { title: `${s.name}`, description: `${s.headline} ${s.outcome}`, alternates: { canonical: `/services/${s.slug}` } };
 }
 
 /** Discipline detail (brief: optional in v1.1, scaffolded now from the deck content). */
@@ -57,7 +57,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         <div className="grid gap-14 lg:grid-cols-[1.2fr_1fr]">
           <MdxBody source={s.body} />
           <div>
-            <h2 className="mono-label text-ink/60">{t.whatWeDo}</h2>
+            <h2 className="mono-label text-ink/65">{t.whatWeDo}</h2>
             <ol className="mt-4 divide-y divide-ink/10 border-y border-ink/10">
               {s.bullets.map((b, i) => (
                 <li key={b} className="grid grid-cols-[3rem_1fr] py-4">

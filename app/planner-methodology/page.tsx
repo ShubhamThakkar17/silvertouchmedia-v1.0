@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { brand, copy } from "@/brand";
+import { copy } from "@/brand";
 import { CPL_BY_INDUSTRY } from "@/data/benchmarks";
 import { INDUSTRIES } from "@/data/industries";
 import {
@@ -21,18 +21,18 @@ import { formatINRCompact, formatINRRange } from "@/lib/format-inr";
 const t = copy.methodology;
 
 export const metadata: Metadata = {
-  title: `Planner methodology | ${brand.name}`,
+  title: `Planner methodology`,
   description: t.body,
   alternates: { canonical: "/planner-methodology" },
 };
 
 function Table({ caption, head, rows }: { caption: string; head: string[]; rows: (string | number)[][] }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={caption}>
       <table className="w-full min-w-[420px] text-left">
-        <caption className="mono-label pb-3 text-left text-ink/60">{caption}</caption>
+        <caption className="mono-label pb-3 text-left text-ink/65">{caption}</caption>
         <thead>
-          <tr className="mono-label text-ink/50">
+          <tr className="mono-label text-ink/65">
             {head.map((h) => (
               <th key={h} scope="col" className="pb-2 pr-4 font-normal">
                 {h}

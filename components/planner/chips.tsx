@@ -57,7 +57,7 @@ export function Field({ label, hint, children, id }: { label: string; hint?: str
       ) : (
         <p className="mono-label opacity-65">{label}</p>
       )}
-      {hint ? <p className="mt-1 text-sm opacity-55">{hint}</p> : null}
+      {hint ? <p className="mt-1 text-sm opacity-70">{hint}</p> : null}
       <div className="mt-3">{children}</div>
     </div>
   );

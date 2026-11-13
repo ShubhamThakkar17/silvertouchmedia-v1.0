@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { brand, copy } from "@/brand";
+import { copy } from "@/brand";
 import { ServicesList } from "@/components/sections/services-list";
 import { Engagement } from "@/components/sections/home-sections";
 import { brandImage } from "@/lib/brand-images";
@@ -8,7 +8,7 @@ import { getServices } from "@/lib/content/site";
 const t = copy.servicesPage;
 
 export const metadata: Metadata = {
-  title: `Services: strategy, creative, digital, media, BTL and PR | ${brand.name}`,
+  title: `Services: strategy, creative, digital, media, BTL and PR`,
   description: t.body,
   alternates: { canonical: "/services" },
 };

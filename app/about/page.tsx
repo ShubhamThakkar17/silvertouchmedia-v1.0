@@ -10,7 +10,7 @@ import { brandImage } from "@/lib/brand-images";
 const t = copy.aboutPage;
 
 export const metadata: Metadata = {
-  title: `About the studio | ${brand.name}`,
+  title: `About the studio`,
   description: copy.intro.body[0],
   alternates: { canonical: "/about" },
 };
@@ -50,7 +50,7 @@ export default function AboutPage() {
                     <span className="font-display block text-5xl font-semibold tracking-tight text-coral">
                       <CountUp to={s.value} plain={"format" in s && s.format === "year"} />
                     </span>
-                    <span className="mono-label mt-2 block text-ink/60">{s.label}</span>
+                    <span className="mono-label mt-2 block text-ink/65">{s.label}</span>
                   </dd>
                 </div>
               ))}

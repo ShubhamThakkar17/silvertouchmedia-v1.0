@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { brand, copy } from "@/brand";
+import { copy } from "@/brand";
 import { AUDIENCES } from "@/data/audiences";
 import { ADEX, DEFINITIONS_NOTE, MARKET_LAST_REVIEWED, MEDIA, publicContext, type MarketFigure } from "@/data/market";
 import { SOURCES, type SourceId } from "@/data/sources";
@@ -13,7 +13,7 @@ import { formatCrore } from "@/lib/format-inr";
 const t = copy.marketPage;
 
 export const metadata: Metadata = {
-  title: `India media market: adex, channels and ROI | ${brand.name}`,
+  title: `India media market: adex, channels and ROI`,
   description: t.body,
   alternates: { canonical: "/market" },
 };
@@ -72,7 +72,7 @@ export default function MarketPage() {
       {/* Adex by medium */}
       <Section tone="light" labelledBy="adex">
         <H2 id="adex">{t.adexTitle}</H2>
-        <p className="mt-3 text-ink/60">{t.adexBody}</p>
+        <p className="mt-3 text-ink/65">{t.adexBody}</p>
         <div className="mono-label mt-8 flex gap-6">
           <span className="flex items-center gap-2">
             <span className="size-3 rounded-sm bg-ink" aria-hidden /> {t.y2025}
@@ -95,7 +95,7 @@ export default function MarketPage() {
               <tr key={m.id} className="border-b border-ink/10">
                 <th scope="row" className="w-36 py-4 pr-4 text-left align-top font-medium md:w-56">
                   {m.label}
-                  {m.derived ? <span className="mono-label mt-1 block text-ink/45">{copy.sources.derived}</span> : null}
+                  {m.derived ? <span className="mono-label mt-1 block text-ink/65">{copy.sources.derived}</span> : null}
                 </th>
                 <td className="py-4" colSpan={2}>
                   {(["y2025", "y2026F"] as const).map((k) => (
@@ -116,7 +116,7 @@ export default function MarketPage() {
             ))}
           </tbody>
         </table>
-        <p className="mt-6 max-w-3xl text-sm text-ink/60">{DEFINITIONS_NOTE}</p>
+        <p className="mt-6 max-w-3xl text-sm text-ink/65">{DEFINITIONS_NOTE}</p>
         <SourceNote id="pmar2026Media" className="mt-3" />
       </Section>
 
@@ -172,8 +172,8 @@ export default function MarketPage() {
       {/* Audience × channel heatmap */}
       <Section tone="light" labelledBy="heatmap">
         <H2 id="heatmap">{t.heatmapTitle}</H2>
-        <p className="mt-3 max-w-2xl text-ink/60">{t.heatmapBody}</p>
-        <div className="mt-10 overflow-x-auto pb-2">
+        <p className="mt-3 max-w-2xl text-ink/65">{t.heatmapBody}</p>
+        <div className="mt-10 overflow-x-auto pb-2" tabIndex={0} role="region" aria-label={t.heatmapTitle}>
           <table className="w-full min-w-[980px] border-separate border-spacing-1 text-sm">
             <caption className="sr-only">{t.heatmapTitle}</caption>
             <thead>
@@ -222,7 +222,7 @@ export default function MarketPage() {
       {/* Region × channel */}
       <Section tone="paper2" labelledBy="region">
         <H2 id="region">{t.regionTitle}</H2>
-        <p className="mt-3 max-w-2xl text-ink/60">{t.regionBody}</p>
+        <p className="mt-3 max-w-2xl text-ink/65">{t.regionBody}</p>
         <div className="mt-10">
           <RegionExplorer
             rows={channels.map((c) => ({ slug: c.slug, name: c.name, regionStrength: c.regionStrength }))}
@@ -235,7 +235,7 @@ export default function MarketPage() {
       {/* ROI / role */}
       <Section tone="dark" labelledBy="roi">
         <H2 id="roi">{t.roiTitle}</H2>
-        <div className="mt-10 overflow-x-auto">
+        <div className="mt-10 overflow-x-auto" tabIndex={0} role="region" aria-label={t.roiTitle}>
           <table className="w-full min-w-[720px] text-left">
             <thead>
               <tr className="mono-label text-paper/55">
@@ -290,7 +290,7 @@ export default function MarketPage() {
             <li key={f.label} className="flex flex-col rounded-[var(--brand-radius-card)] border border-ink/10 p-6">
               <p className="font-display text-4xl font-semibold tracking-tight text-coral">{figure(f)}</p>
               <p className="mt-2 flex-1 text-lg">{f.label}</p>
-              {f.note ? <p className="mt-1 text-sm text-ink/60">{f.note}</p> : null}
+              {f.note ? <p className="mt-1 text-sm text-ink/65">{f.note}</p> : null}
               <SourceNote id={f.source} className="mt-5" />
             </li>
           ))}
@@ -300,7 +300,7 @@ export default function MarketPage() {
       {/* Sources */}
       <Section tone="paper2" labelledBy="sources">
         <H2 id="sources">{t.sourcesTitle}</H2>
-        <p className="mt-3 text-ink/60">
+        <p className="mt-3 text-ink/65">
           {t.sourcesBody} {t.lastReviewed}: {MARKET_LAST_REVIEWED}.
         </p>
         <ol className="mt-8 divide-y divide-ink/10 border-y border-ink/10">
@@ -318,7 +318,7 @@ export default function MarketPage() {
                     s.report
                   )}
                 </span>
-                <span className="mono-label text-ink/60">
+                <span className="mono-label text-ink/65">
                   {s.year}
                   {!s.verified ? <span className="text-coral"> · {copy.sources.unverified}</span> : null}
                 </span>

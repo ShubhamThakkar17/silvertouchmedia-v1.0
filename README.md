@@ -12,7 +12,7 @@ Currently configured for **Silver Touch Media**. To rebrand, see [CLONING.md](CL
 | M3 Content model: full channel schema, 18 channel guides, `/data` seeds, image pipeline | ✅ |
 | M4 Pages: home sections, channel template, channels index, market, services, industries, about, work, contact | ✅ |
 | M5 Planner: engine + 10 persona tests, two-mode UI, shareable URLs, PDF, gated unlock, lead APIs, Sheets, email, WhatsApp | ✅ |
-| M6 Polish, accessibility, SEO, analytics consent, Lighthouse, Playwright, data audit, deploy | next |
+| M6 Consent + analytics, privacy/terms, SEO (OG, JSON-LD, sitemap, robots, llms.txt), insights, data audit, demo brand, WCAG AA fixes, Lighthouse ≥ 90, Playwright smoke tests | ✅ |
 
 ## Run it
 
@@ -31,8 +31,14 @@ pnpm dev            # http://localhost:3000
 | `pnpm images:fetch` | Downloads 3 Unsplash/Pexels options per channel (keys in `.env.local`); choose at `/admin/image-picker` |
 | `pnpm test` | Vitest: INR formatting, content ↔ `/data` integrity, copy rules, frontmatter edits |
 | `pnpm verify` | Brand check, types, lint, tests, build |
+| `pnpm test:e2e` | Playwright smoke + axe accessibility tests (desktop and mobile) against `pnpm start`, or `E2E_BASE_URL` |
 
 Hero testing: append `?ribbon=webgl` or `?ribbon=css` to force a mode.
+
+Internal pages (local dev and Vercel previews only): `/admin/data-audit` (every unverified value),
+`/admin/scenes` (all hero motion graphics). `/admin/image-picker` is local dev only.
+
+Lighthouse results: [docs/lighthouse.md](docs/lighthouse.md). Demo-brand proof: [docs/demo-brand](docs/demo-brand).
 
 ## Layout
 

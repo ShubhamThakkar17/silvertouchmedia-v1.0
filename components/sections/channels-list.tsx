@@ -100,7 +100,7 @@ export function ChannelsList({
           </li>
         ))}
       </ul>
-      <p className="mono-label mt-4 opacity-50" aria-live="polite">
+      <p className="mono-label mt-4 opacity-70" aria-live="polite">
         {shown.length} {labels.count}
       </p>
 

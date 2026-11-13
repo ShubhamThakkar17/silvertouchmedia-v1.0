@@ -1,9 +1,11 @@
+import { demoBrand } from "./brand.demo.config";
+
 /**
  * BRAND CONFIG — the single source of identity for this site.
  * Cloning for another agency? Replace this file (plus theme.ts, fonts.ts, copy.ts)
  * and the images in /public/images/brand. See CLONING.md.
  */
-export const brand = {
+const baseBrand = {
   name: "Silver Touch Media",
   shortName: "Silver Touch",
   /** Word set in type next to the logo lockup (the logo file itself has no descriptor). */
@@ -68,4 +70,21 @@ export const brand = {
   forbiddenOutsideConfig: ["Silver Touch", "silvertouch", "99261"],
 } as const;
 
-export type Brand = typeof brand;
+/** Deeply widened shape of the brand config, so another brand can satisfy the same type. */
+export type Widen<T> = T extends string
+  ? string
+  : T extends number
+    ? number
+    : T extends boolean
+      ? boolean
+      : T extends readonly (infer U)[]
+        ? readonly Widen<U>[]
+        : { readonly [K in keyof T]: Widen<T[K]> };
+export type BrandConfig = Widen<typeof baseBrand>;
+export type Brand = BrandConfig;
+
+/**
+ * NEXT_PUBLIC_BRAND=demo swaps in brand.demo.config.ts (a fictional agency) to prove the
+ * site rebrands without touching components. Leave unset for the real brand.
+ */
+export const brand: BrandConfig = process.env.NEXT_PUBLIC_BRAND === "demo" ? demoBrand : baseBrand;

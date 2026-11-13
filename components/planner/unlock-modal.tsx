@@ -177,12 +177,12 @@ export function UnlockModal({
               <Turnstile siteKey={turnstileSiteKey} onToken={setToken} theme="light" />
               {errors.captcha ? <p className="mt-1 text-sm text-coral">{errors.captcha}</p> : null}
             </div>
-            <p className="mt-4 text-sm text-ink/55">{t.consent}</p>
+            <p className="mt-4 text-sm text-ink/65">{t.consent}</p>
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <button type="submit" disabled={busy} className="mono-label rounded-full bg-coral px-7 py-4 text-ink transition-colors hover:bg-ink hover:text-paper disabled:opacity-60">
                 {busy ? t.sending : t.submit}
               </button>
-              {busy ? <span aria-hidden className="radar inline-block w-10 animate-pulse text-ink/50" /> : null}
+              {busy ? <span aria-hidden className="radar inline-block w-10 animate-pulse text-ink/65" /> : null}
             </div>
             {failed ? (
               <p role="alert" className="mt-4 text-coral">

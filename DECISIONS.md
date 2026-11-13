@@ -246,3 +246,34 @@ Items marked **OPEN** need a decision from you.
 - `/admin/scenes` (dev only) shows all 18 side by side for review. A channel a clone adds without
   a scene falls back to the radar-rings animation.
 
+## M6 · Polish, SEO, accessibility, performance
+
+- **Consent first.** GA4 and Meta Pixel load only after "Accept all" and only when their IDs are
+  set; "Essential only" is the default action. The attribution cookie is first-party and
+  essential (it records campaign tags for leads). "Cookie settings" in the footer reopens it.
+- **Privacy policy and terms** are written for India's DPDP Act 2023 and this site's actual data
+  flows, in `content/legal/*.mdx`. They are a sound starting point, not legal advice: please have
+  them reviewed before launch. The contact block on both pages comes from the brand config.
+- **SEO:** `metadataBase` from `NEXT_PUBLIC_SITE_URL`; Organization and ProfessionalService
+  JSON-LD site-wide; Service, FAQPage and BreadcrumbList on channel pages; Article on insights;
+  branded OG images (default plus one per channel); `sitemap.xml`, `robots.txt` (blocks `/admin`
+  and `/api`) and `llms.txt`. Page titles no longer repeat the brand (the template adds it).
+- **Insights:** three seed posts in `content/insights`, cited where they use market figures.
+- **Data audit** at `/admin/data-audit` lists all 66 unverified values with the file to edit.
+  Admin review pages are on in local dev and Vercel previews (behind Vercel login), never in
+  production. The image picker stays local-only because it writes files.
+- **Demo brand:** `NEXT_PUBLIC_BRAND=demo` swaps `brand.config.ts` and `theme.ts` to
+  `brand.demo.config.ts` (Kestrel Media, blue palette, own monogram). Proof screenshots in
+  `docs/demo-brand/`.
+- **WCAG AA contrast.** Brand coral on paper is 2.8:1, so small coral text on light surfaces now
+  uses `coralDeep` (#C4381A, 4.9:1). It is applied automatically through an inherited
+  `--accent-text` variable set by the nearest light or dark surface. Faint greys were raised to
+  at least 65% ink on light and 60% paper on dark. Scrollable tables are focusable regions.
+  axe (WCAG 2 A/AA) reports no serious or critical issues on the pages tested.
+- **Performance:** see `docs/lighthouse.md`. Mobile Lighthouse 95 to 97 (simulated) and 100 with
+  applied throttling on Home, a channel page and the Planner; accessibility, best practices and
+  SEO 100. Key changes: hero animation waits for the first interaction (or 7 s), a 2 KB symbols
+  font avoids large latin-ext downloads for ₹, only the display font is preloaded, CSS is inlined.
+- **Smoke tests:** `pnpm test:e2e` runs Playwright on desktop and a Pixel 7: home, mobile fallback,
+  channel page, both planner modes, lead and plan APIs (PDF bytes checked), and axe on key pages.
+

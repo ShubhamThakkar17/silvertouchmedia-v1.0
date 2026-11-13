@@ -24,7 +24,7 @@ export function Intro({ image }: { image: { src: string; blurDataURL?: string } 
                   <span className="font-display block text-5xl font-semibold tracking-tight text-coral md:text-6xl">
                     <CountUp to={s.value} plain={"format" in s && s.format === "year"} />
                   </span>
-                  <span className="mono-label mt-3 block text-ink/60">{s.label}</span>
+                  <span className="mono-label mt-3 block text-ink/65">{s.label}</span>
                 </dd>
               </div>
             ))}
@@ -43,7 +43,7 @@ export function Intro({ image }: { image: { src: string; blurDataURL?: string } 
               className="object-cover"
             />
           </div>
-          <p className="mono-label mt-3 text-ink/50">{copy.disclaimers.concept}</p>
+          <p className="mono-label mt-3 text-ink/65">{copy.disclaimers.concept}</p>
         </div>
       </div>
     </section>

@@ -154,7 +154,7 @@ export function ContactForm({
         <button type="submit" disabled={isSubmitting} className="mono-label rounded-full bg-coral px-8 py-4 text-ink transition-colors hover:bg-ink hover:text-paper disabled:opacity-60">
           {isSubmitting ? copy.sending : copy.submit}
         </button>
-        <p className="text-sm text-ink/55">
+        <p className="text-sm text-ink/65">
           <Link href="/privacy" className="underline underline-offset-2">
             {copy.privacy}
           </Link>

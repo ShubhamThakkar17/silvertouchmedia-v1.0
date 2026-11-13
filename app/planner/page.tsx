@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { brand, copy } from "@/brand";
+import { copy } from "@/brand";
 import { PlannerApp } from "@/components/planner/planner-app";
 import { getChannels } from "@/lib/content/channels";
 import { parseState } from "@/lib/planner/state";
@@ -8,7 +8,7 @@ import { toPlannerChannel } from "@/lib/planner/types";
 const t = copy.planner;
 
 export const metadata: Metadata = {
-  title: `Media planner: budget to channels, channels to budget | ${brand.name}`,
+  title: `Media planner: budget to channels, channels to budget`,
   description: t.body,
   alternates: { canonical: "/planner" },
 };

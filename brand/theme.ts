@@ -1,11 +1,15 @@
+import type { Widen } from "./brand.config";
+import { demoTheme } from "./brand.demo.config";
+
 /**
  * THEME TOKENS — exported to CSS variables (--brand-*) in app/layout.tsx and
  * mapped to Tailwind utilities in app/globals.css (bg-coral, text-ink, …).
  * Change colours here only.
  */
-export const theme = {
+const baseTheme = {
   colors: {
     coral: "#FF5B3A", // primary: accents, active states, key numbers, CTAs
+    coralDeep: "#C4381A", // coral for small text on paper (WCAG AA 4.5:1); set automatically by tone
     ink: "#121316", // dark sections, hero base
     ink2: "#1B1D21", // dark cards
     paper: "#F5F5F3", // light sections
@@ -25,6 +29,10 @@ export const theme = {
    */
   chart: ["#FF5B3A", "#9FD9C0", "#6B72C9", "#E8C07D", "#4F9D7E", "#FF9C85", "#B9BCC2", "#C9503A", "#2B2F6B"],
 } as const;
+
+export type ThemeConfig = Widen<typeof baseTheme>;
+/** NEXT_PUBLIC_BRAND=demo swaps in the demo palette (see brand.demo.config.ts). */
+export const theme: ThemeConfig = process.env.NEXT_PUBLIC_BRAND === "demo" ? demoTheme : baseTheme;
 
 export type ThemeColor = keyof typeof theme.colors;
 

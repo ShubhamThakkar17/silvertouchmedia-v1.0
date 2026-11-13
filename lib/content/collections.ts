@@ -47,3 +47,19 @@ export type Industry = z.infer<typeof IndustryFrontmatter> & { body: string };
 
 export const loadServices = (): Service[] => loadCollection("services", ServiceFrontmatter);
 export const loadIndustries = (): Industry[] => loadCollection("industries", IndustryFrontmatter);
+
+export const InsightFrontmatter = z.object({
+  slug: z.string().regex(/^[a-z0-9-]+$/),
+  title: z.string(),
+  summary: z.string().max(220),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  readMinutes: z.number().int().positive(),
+  tags: z.array(z.string()).default([]),
+  channels: z.array(z.string()).default([]),
+  sources: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
+});
+export type Insight = z.infer<typeof InsightFrontmatter> & { body: string };
+
+/** Newest first. */
+export const loadInsights = (): Insight[] =>
+  loadCollection("insights", InsightFrontmatter.extend({ order: z.number().optional() })).sort((a, b) => b.date.localeCompare(a.date));

@@ -45,7 +45,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
           </nav>
           <h1 className="display-xl mt-5 max-w-[14ch]">{ind.headline}</h1>
           <p className="mt-6 max-w-xl text-xl text-silver">{ind.short}</p>
-          <p className="mono-label mt-8 text-paper/45">{copy.disclaimers.concept}</p>
+          <p className="mono-label mt-8 text-paper/60">{copy.disclaimers.concept}</p>
         </div>
       </section>
 
@@ -56,7 +56,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
             <MdxBody source={ind.body} />
           </div>
           <div>
-            <h2 className="mono-label text-ink/60">{t.challengesTitle}</h2>
+            <h2 className="mono-label text-ink/65">{t.challengesTitle}</h2>
             <ul className="mt-4 space-y-3">
               {ind.challenges.map((c) => (
                 <li key={c} className="rounded-[var(--brand-radius-card)] bg-paper-2 p-5 text-lg">
@@ -84,7 +84,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
           <div>
             <h2 className="font-display text-3xl font-semibold tracking-tight md:text-5xl">{t.channelsTitle}</h2>
-            <p className="mt-4 max-w-md text-ink/60">{t.channelsBody}</p>
+            <p className="mt-4 max-w-md text-ink/65">{t.channelsBody}</p>
             <PillLink href={`/planner?mode=budget&industry=${ind.slug}`} className="mt-8">
               {t.plannerCta.replace("{industry}", ind.name.toLowerCase())} →
             </PillLink>

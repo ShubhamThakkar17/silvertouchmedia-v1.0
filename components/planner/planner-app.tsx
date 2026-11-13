@@ -33,7 +33,7 @@ function Step({ n, title, optional, children }: { n: number; title: string; opti
       <h2 className="flex items-baseline gap-3">
         <span className="mono-label text-coral">{String(n).padStart(2, "0")}</span>
         <span className="font-display text-2xl font-semibold tracking-tight">{title}</span>
-        {optional ? <span className="mono-label opacity-50">{t.optional}</span> : null}
+        {optional ? <span className="mono-label opacity-70">{t.optional}</span> : null}
       </h2>
       <div className="mt-6 space-y-7">{children}</div>
     </section>
@@ -228,7 +228,7 @@ export function PlannerApp({ channels, initial, turnstileSiteKey }: { channels: 
                 aria-valuetext={formatINRCompact(s.budgetINR)}
                 className="mt-5 w-full accent-[var(--brand-coral)]"
               />
-              <div className="mono-label mt-1 flex justify-between opacity-50">
+              <div className="mono-label mt-1 flex justify-between opacity-70">
                 <span>{formatINRCompact(ALLOCATION.budgetMinINR)}</span>
                 <span>{formatINRCompact(ALLOCATION.budgetMaxINR)}+</span>
               </div>

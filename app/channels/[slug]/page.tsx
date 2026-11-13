@@ -96,6 +96,15 @@ export default async function ChannelPage({ params }: { params: Promise<{ slug: 
       areaServed: { "@type": "Country", name: brand.address.country },
       provider: { "@type": "ProfessionalService", name: brand.name },
     },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: brand.name, item: brand.seo.siteUrl },
+        { "@type": "ListItem", position: 2, name: t.breadcrumb, item: `${brand.seo.siteUrl}/channels` },
+        { "@type": "ListItem", position: 3, name: c.name, item: `${brand.seo.siteUrl}/channels/${c.slug}` },
+      ],
+    },
   ];
 
   return (
@@ -134,9 +143,9 @@ export default async function ChannelPage({ params }: { params: Promise<{ slug: 
             ))}
           </dl>
           {c.imageIsConcept ? (
-            <p className="mono-label mt-6 text-paper/45">{copy.disclaimers.concept}</p>
+            <p className="mono-label mt-6 text-paper/60">{copy.disclaimers.concept}</p>
           ) : c.imageCredit ? (
-            <p className="mono-label mt-6 text-paper/50">
+            <p className="mono-label mt-6 text-paper/60">
               {copy.disclaimers.photoBy}{" "}
               <a href={c.imageCredit.url} target="_blank" rel="noreferrer" className="underline">
                 {c.imageCredit.photographer}
@@ -161,7 +170,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ slug: 
                 <span className="mono-label pt-1 text-coral">({String(i + 1).padStart(2, "0")})</span>
                 <span>
                   <span className="font-display block text-xl font-medium tracking-tight">{f.name}</span>
-                  {f.note ? <span className="mt-1 block text-ink/60">{f.note}</span> : null}
+                  {f.note ? <span className="mt-1 block text-ink/65">{f.note}</span> : null}
                 </span>
               </li>
             ))}
@@ -237,11 +246,11 @@ export default async function ChannelPage({ params }: { params: Promise<{ slug: 
           </div>
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-1">
             <div>
-              <h3 className="mono-label mb-4 text-ink/60">{t.zonesTitle}</h3>
+              <h3 className="mono-label mb-4 text-ink/65">{t.zonesTitle}</h3>
               <ZoneMap scores={c.regionStrength} title={t.zonesTitle} compact />
             </div>
             <div>
-              <h3 className="mono-label mb-2 text-ink/60">{t.tiersTitle}</h3>
+              <h3 className="mono-label mb-2 text-ink/65">{t.tiersTitle}</h3>
               {TIERS.map((tier) => (
                 <ScoreBar key={tier.id} label={tier.label} value={c.tierStrength[tier.id]} />
               ))}
@@ -256,7 +265,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ slug: 
         <p className="mt-4 max-w-xl text-lg text-ink/70">{c.bestFor}.</p>
         <div className="mt-10 grid gap-10 md:grid-cols-2">
           <div>
-            <h3 className="mono-label mb-4 text-ink/60">{t.industriesTitle}</h3>
+            <h3 className="mono-label mb-4 text-ink/65">{t.industriesTitle}</h3>
             <ul className="flex flex-wrap gap-2">
               {industries.map((i) => (
                 <li key={i.id}>
@@ -272,7 +281,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ slug: 
             </ul>
           </div>
           <div>
-            <h3 className="mono-label mb-4 text-ink/60">{t.stagesTitle}</h3>
+            <h3 className="mono-label mb-4 text-ink/65">{t.stagesTitle}</h3>
             <ul className="flex flex-wrap gap-2">
               {stages.map((s) => (
                 <li key={s.id} className="inline-flex rounded-full border border-ink/15 px-4 py-2 text-sm">
@@ -346,7 +355,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ slug: 
                 rel="noreferrer"
                 className="group flex h-full flex-col rounded-[var(--brand-radius-card)] border border-ink/10 bg-paper-2 p-6 transition-colors hover:border-coral"
               >
-                <span className="mono-label text-ink/55">
+                <span className="mono-label text-ink/65">
                   {w.publisher}
                   {w.year ? ` · ${w.year}` : ""}
                 </span>

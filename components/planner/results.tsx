@@ -48,10 +48,10 @@ function TotalsBlock({ totals, roi }: { totals: Totals; roi: RoiSummary }) {
 function LinesTable({ lines, name }: { lines: ChannelLine[]; name: (s: string) => string }) {
   const c = t.results.cols;
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={t.results.mixTitle}>
       <table className="w-full min-w-[560px] text-left text-sm">
         <thead>
-          <tr className="mono-label text-paper/50">
+          <tr className="mono-label text-paper/60">
             <th scope="col" className="pb-2 pr-3 font-normal">{c.channel}</th>
             <th scope="col" className="pb-2 pr-3 font-normal">{c.amount}</th>
             <th scope="col" className="pb-2 pr-3 font-normal">{c.impressions}</th>

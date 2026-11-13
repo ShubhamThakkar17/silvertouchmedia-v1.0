@@ -6,6 +6,7 @@
  */
 @theme inline {
   --color-coral: var(--brand-coral, #ff5b3a);
+  --color-coral-deep: var(--brand-coral-deep, #c4381a);
   --color-ink: var(--brand-ink, #121316);
   --color-ink-2: var(--brand-ink-2, #1b1d21);
   --color-paper: var(--brand-paper, #f5f5f3);
@@ -15,9 +16,9 @@
   --color-silver: var(--brand-silver, #b9bcc2);
   --color-indigo: var(--brand-indigo, #2b2f6b);
 
-  --font-display: var(--nf-display), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--nf-body), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--nf-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--nf-symbols-display), var(--nf-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--nf-symbols), var(--nf-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--nf-symbols), var(--nf-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius-card: var(--brand-radius-card, 18px);
   --shadow-soft: var(--brand-shadow-soft);
@@ -31,7 +32,7 @@
   body {
     background: var(--brand-ink);
     color: var(--brand-paper);
-    font-family: var(--nf-body);
+    font-family: var(--nf-symbols), var(--nf-body);
     -webkit-font-smoothing: antialiased;
   }
   ::selection {
@@ -46,7 +47,7 @@
   h1,
   h2,
   h3 {
-    font-family: var(--nf-display);
+    font-family: var(--nf-symbols-display), var(--nf-display);
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
@@ -55,21 +56,21 @@
 @layer components {
   /* Gobo-style mono label: (05) HOARDINGS & BILLBOARDS · PAN-INDIA */
   .mono-label {
-    font-family: var(--nf-mono);
+    font-family: var(--nf-symbols), var(--nf-mono);
     font-size: 0.6875rem;
     line-height: 1.2;
     letter-spacing: 0.12em;
     text-transform: uppercase;
   }
   .eyebrow {
-    font-family: var(--nf-mono);
+    font-family: var(--nf-symbols), var(--nf-mono);
     font-size: 0.75rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--brand-coral);
+    color: var(--accent-text, var(--brand-coral));
   }
   .display-xl {
-    font-family: var(--nf-display);
+    font-family: var(--nf-symbols-display), var(--nf-display);
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 0.95;
@@ -213,4 +214,24 @@
   transform-box: view-box;
   transform-origin: center;
   animation: ring-pulse 2.8s ease-out infinite;
+}
+
+/*
+ * Accessible accent: coral text on light surfaces uses the deeper coral (AA 4.5:1),
+ * full coral on dark ones. Inherited from the nearest toned ancestor, so nested
+ * light cards in dark sections (and vice versa) get the right shade.
+ */
+:root,
+.bg-ink,
+.bg-ink-2,
+.mesh-dark,
+.bg-forest {
+  --accent-text: var(--brand-coral);
+}
+.bg-paper,
+.bg-paper-2 {
+  --accent-text: var(--brand-coral-deep);
+}
+.text-coral {
+  color: var(--accent-text, var(--brand-coral));
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import QRCode from "qrcode";
 import { brand, copy, theme } from "@/brand";
+import { ConsentLink } from "@/components/analytics/consent";
 import { Logo } from "@/components/brand/logo";
 import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -107,6 +108,7 @@ export async function SiteFooter() {
           <span>
             © {new Date().getFullYear()} {brand.name}. {copy.footer.rights}
           </span>
+          <ConsentLink className="mono-label underline-offset-2 hover:text-coral hover:underline" />
           <span>{brand.legalLine}</span>
         </p>
       </div>

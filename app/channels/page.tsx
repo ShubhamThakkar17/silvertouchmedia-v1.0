@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { brand, copy } from "@/brand";
+import { copy } from "@/brand";
 import { ChannelsList } from "@/components/sections/channels-list";
 import { getChannels, toCore } from "@/lib/content/channels";
 
 export const metadata: Metadata = {
-  title: `Media channels we plan and buy | ${brand.name}`,
+  title: `Media channels we plan and buy`,
   description: copy.channelsIndex.body,
   alternates: { canonical: "/channels" },
 };

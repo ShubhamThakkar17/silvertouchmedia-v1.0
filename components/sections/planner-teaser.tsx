@@ -103,7 +103,7 @@ export function PlannerTeaser({
             aria-valuetext={formatINRCompact(monthly)}
             className="mt-4 w-full accent-[var(--brand-coral)]"
           />
-          <div className="mono-label mt-2 flex justify-between text-paper/45">
+          <div className="mono-label mt-2 flex justify-between text-paper/60">
             <span>{formatINRCompact(ALLOCATION.budgetMinINR)}</span>
             <span>{formatINRCompact(ALLOCATION.budgetMaxINR / 10)}+</span>
           </div>

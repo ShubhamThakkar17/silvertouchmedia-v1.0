@@ -451,6 +451,28 @@ export const copy = {
     placeholder: "Placeholder",
   },
 
+  consent: {
+    title: "Cookies",
+    body: "Analytics and ad cookies only with your OK.",
+    accept: "Accept all",
+    decline: "Essential only",
+    policy: "Privacy policy",
+    manage: "Cookie settings",
+  },
+
+  insightsPage: {
+    eyebrow: "Insights",
+    title: "Notes on Indian media.",
+    body: "Short, sourced reads on planning media in India: what works, what it costs and how to measure it.",
+    readMore: "Read",
+    minRead: "min read",
+    back: "All insights",
+  },
+
+  legal: {
+    updated: "Last updated",
+  },
+
   channelsList: {
     eyebrow: "The channels",
     title: "Eighteen ways to be seen.",
@@ -576,23 +598,6 @@ export const copy = {
       privacy: "We use your details only to reply to you. See our privacy policy.",
     },
     budgetBands: ["Under ₹1 L", "₹1 L to ₹5 L", "₹5 L to ₹25 L", "₹25 L to ₹1 Cr", "Over ₹1 Cr", "Not sure yet"],
-  },
-
-  placeholder: {
-    eyebrow: "In production",
-    body: "This page is being built. Meanwhile, talk to us or explore the channels.",
-    pages: {
-      planner: "Media Planner",
-      market: "India media market",
-      about: "A 360° media agency from Ahmedabad.",
-      contact: "Contact",
-      services: "Services",
-      work: "Work",
-      insights: "Insights",
-      privacy: "Privacy policy",
-      terms: "Terms of use",
-      "planner-methodology": "How the planner calculates",
-    },
   },
 
   channelsIndex: {

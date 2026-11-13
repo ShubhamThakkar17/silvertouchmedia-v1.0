@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { brand, copy } from "@/brand";
+import { copy } from "@/brand";
 import { PillLink } from "@/components/ui/pill-link";
 import { Section } from "@/components/ui/section";
 import manifest from "@/data/generated/brand-images.json";
@@ -9,7 +9,7 @@ import { brandImage } from "@/lib/brand-images";
 const t = copy.workPage;
 
 export const metadata: Metadata = {
-  title: `Work | ${brand.name}`,
+  title: `Work`,
   description: t.body,
   alternates: { canonical: "/work" },
 };

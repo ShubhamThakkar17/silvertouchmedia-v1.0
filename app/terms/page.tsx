@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { copy } from "@/brand";
-import { PlaceholderPage } from "@/components/layout/placeholder-page";
+import { LegalPage, readLegal } from "@/components/content/legal-page";
 
-export const metadata: Metadata = { title: copy.placeholder.pages["terms"], robots: { index: false } };
+export function generateMetadata(): Metadata {
+  return { title: readLegal("terms").title, alternates: { canonical: "/terms" } };
+}
 
 export default function Page() {
-  return <PlaceholderPage page="terms" />;
+  return <LegalPage slug="terms" />;
 }
