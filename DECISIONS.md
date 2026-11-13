@@ -297,4 +297,8 @@ Items marked **OPEN** need a decision from you.
   later (over the same poster cards), and the glass cube appears just after the ribbon.
 - **`vercel.json`:** functions in `bom1` (Mumbai) for Indian visitors; immutable caching for
   `/images` and `/fonts`.
+- **Not indexed until the real domain is set.** Connecting GitHub made `main` the production
+  branch, so the site is publicly reachable at `stm-website-preview.vercel.app`. Every page is
+  `noindex` and `robots.txt` disallows crawling until `NEXT_PUBLIC_SITE_URL` is set to a real
+  domain (anything not `localhost` or `*.vercel.app`), via `lib/seo.ts`.
 

@@ -7,6 +7,7 @@ import { Consent } from "@/components/analytics/consent";
 import { EventClicks } from "@/components/analytics/event-clicks";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { getChannels } from "@/lib/content/channels";
+import { isIndexable } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
   title: { default: brand.seo.defaultTitle, template: brand.seo.titleTemplate },
   description: brand.seo.description,
   applicationName: brand.name,
+  robots: isIndexable() ? { index: true, follow: true } : { index: false, follow: false },
   icons: { icon: brand.logo.monogram },
   openGraph: {
     type: "website",
