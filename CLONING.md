@@ -43,8 +43,12 @@ names, colours, copy or contacts; everything comes from four places.
    List client and vendor names that must never appear publicly in
    `brand/withheld-names.ts`; the tests scan `/content`, `/data` and copy for them.
 9. **Environment** – copy `.env.example` to `.env.local` and fill in the keys
-   (Resend, Sheets webhook, Turnstile, analytics).
-10. **Check & deploy** – `pnpm check:brand && pnpm build`, then deploy to Vercel.
+   (Resend, Sheets webhook, Turnstile, analytics). For the lead Sheet follow
+   `integrations/google-apps-script/README.md`. Every integration is optional: without
+   keys the site still works and simply skips that delivery step.
+10. **PDF fonts** – swap the TTFs in `brand/pdf-fonts/` if the new brand uses different
+   typefaces (they must contain the ₹ glyph).
+11. **Check & deploy** – `pnpm check:brand && pnpm build`, then deploy to Vercel.
 
 ## Proving it
 

@@ -129,5 +129,21 @@ export const ROI_STAGE_SHIFT: Record<StageId, number> = {
   established: 0.15,
   relaunch: -0.15,
 };
-export const ROI_NEW_BRAND_NOTE =
-  "New brands usually see awareness pay back over 3 to 6 months, so expect a lower short-term return.";
+/* The new-brand ROI note lives in brand/copy.ts (planner.results.newBrandNote). */
+
+/** Total reach across channels overlaps; sum of channel reach is multiplied by this. Assumption. */
+export const TOTAL_REACH_DEDUP = 0.65;
+/** Mode B totals are shown as a range of ± this share for rate and inventory variance. */
+export const RATE_VARIANCE = 0.15;
+/** How many "channels we'd add" to suggest. */
+export const SUGGESTION_COUNT = 3;
+/** Weighted ROI value thresholds: below `low` → Low, below `high` → Medium, else High. */
+export const ROI_THRESHOLDS = { low: 1.6, high: 2.4 };
+
+/**
+ * Flighting: on longer plans a channel need not run every month. The minimum effective
+ * budget applies to this many active months (assumption; brief §9.2 "duration factor").
+ */
+export const ACTIVE_MONTHS: Record<DurationMonths, number> = { 1: 1, 3: 3, 6: 4, 12: 6 };
+export const activeMonths = (months: number, minDurationMonths = 1) =>
+  Math.max(ACTIVE_MONTHS[months as DurationMonths] ?? months, minDurationMonths);

@@ -11,8 +11,8 @@ Currently configured for **Silver Touch Media**. To rebrand, see [CLONING.md](CL
 | M2 Hero ribbon: WebGL curved ribbon, glass monogram, CSS fallback | ✅ (tuning welcome) |
 | M3 Content model: full channel schema, 18 channel guides, `/data` seeds, image pipeline | ✅ |
 | M4 Pages: home sections, channel template, channels index, market, services, industries, about, work, contact | ✅ |
-| M5 Planner (full UI, PDF, lead delivery) | next |
-| M6 Polish and deploy | planned |
+| M5 Planner: engine + 10 persona tests, two-mode UI, shareable URLs, PDF, gated unlock, lead APIs, Sheets, email, WhatsApp | ✅ |
+| M6 Polish, accessibility, SEO, analytics consent, Lighthouse, Playwright, data audit, deploy | next |
 
 ## Run it
 

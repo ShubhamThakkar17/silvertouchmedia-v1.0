@@ -1,0 +1,244 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`planner personas > Ahmedabad real-estate launch ₹40 L, 3 months 1`] = `
+{
+  "add": [
+    "brand-ambassadors",
+    "cinema",
+    "metro-train-wraps",
+  ],
+  "impressions": {
+    "high": 94942710,
+    "low": 17170673,
+  },
+  "leads": undefined,
+  "mix": [
+    "hoardings-billboards 39% ₹1575601",
+    "print-media 31% ₹1256469",
+    "digital-ooh 29% ₹1167930",
+  ],
+  "reach": {
+    "high": 10874183,
+    "low": 2185139,
+  },
+  "roi": "Medium",
+}
+`;
+
+exports[`planner personas > Gujarat solar EPC B2B ₹8 L leads 1`] = `
+{
+  "add": [
+    "print-media",
+    "hoardings-billboards",
+    "digital-articles-pr",
+  ],
+  "impressions": {
+    "high": 6857143,
+    "low": 2133333,
+  },
+  "leads": {
+    "high": 720,
+    "low": 288,
+  },
+  "mix": [
+    "search-performance 50% ₹400000",
+    "social-media 50% ₹400000",
+  ],
+  "reach": {
+    "high": 1733334,
+    "low": 528254,
+  },
+  "roi": "High",
+}
+`;
+
+exports[`planner personas > Indore hospital ₹6 L leads, 3 months 1`] = `
+{
+  "add": [
+    "television",
+    "digital-articles-pr",
+    "print-media",
+  ],
+  "impressions": {
+    "high": 4500000,
+    "low": 1400000,
+  },
+  "leads": {
+    "high": 1800,
+    "low": 360,
+  },
+  "mix": [
+    "search-performance 50% ₹300000",
+    "social-media 50% ₹300000",
+  ],
+  "reach": {
+    "high": 1137500,
+    "low": 346666,
+  },
+  "roi": "High",
+}
+`;
+
+exports[`planner personas > Mode B: FMCG picks TV, creators, cricket 1`] = `
+{
+  "scenarios": [
+    "launch ₹13045309 reach 12346425-56265300 roi Medium",
+    "elevate ₹32613273 reach 30866063-140663250 roi Medium",
+    "dominate ₹78271855 reach 74078550-337591800 roi Medium",
+  ],
+}
+`;
+
+exports[`planner personas > Mode B: developer picks hoardings, search, social 1`] = `
+{
+  "scenarios": [
+    "launch ₹1050000 reach 681146-3615625 roi Medium",
+    "elevate ₹2625000 reach 1702865-9039063 roi Medium",
+    "dominate ₹6300000 reach 4086875-21693750 roi Medium",
+  ],
+}
+`;
+
+exports[`planner personas > National bank awareness ₹5 Cr, 12 months 1`] = `
+{
+  "add": [
+    "hoardings-billboards",
+    "railways-train-branding",
+    "print-media",
+  ],
+  "impressions": {
+    "high": 491896677,
+    "low": 125073527,
+  },
+  "leads": {
+    "high": 33468,
+    "low": 6693,
+  },
+  "mix": [
+    "social-media 15% ₹7467424",
+    "search-performance 15% ₹7400467",
+    "airport-branding 15% ₹7289319",
+    "cricket-stadiums-sports 14% ₹7171381",
+    "television 14% ₹7119985",
+    "digital-articles-pr 14% ₹6794948",
+    "brand-ambassadors 14% ₹6756477",
+  ],
+  "reach": {
+    "high": 134373062,
+    "low": 33581031,
+  },
+  "roi": "High",
+}
+`;
+
+exports[`planner personas > PAN-India D2C established ₹2 Cr, 6 months 1`] = `
+{
+  "add": [
+    "television",
+    "brand-ambassadors",
+    "hoardings-billboards",
+  ],
+  "impressions": {
+    "high": 242240045,
+    "low": 61824893,
+  },
+  "leads": {
+    "high": 101498,
+    "low": 20299,
+  },
+  "mix": [
+    "social-media 30% ₹6097384",
+    "search-performance 25% ₹5065700",
+    "influencers-creators 22% ₹4445471",
+    "cricket-stadiums-sports 22% ₹4391445",
+  ],
+  "reach": {
+    "high": 71187036,
+    "low": 17599834,
+  },
+  "roi": "High",
+}
+`;
+
+exports[`planner personas > Pune college admissions ₹15 L 1`] = `
+{
+  "add": [
+    "inside-metro",
+    "print-media",
+    "hoardings-billboards",
+  ],
+  "impressions": {
+    "high": 9496630,
+    "low": 2744171,
+  },
+  "leads": {
+    "high": 3158,
+    "low": 789,
+  },
+  "mix": [
+    "search-performance 35% ₹528769",
+    "social-media 35% ₹524555",
+    "influencers-creators 30% ₹446676",
+  ],
+  "reach": {
+    "high": 2650154,
+    "low": 746380,
+  },
+  "roi": "High",
+}
+`;
+
+exports[`planner personas > Small manufacturer ₹3 L, 1 month 1`] = `
+{
+  "add": [
+    "print-media",
+    "airport-branding",
+    "hoardings-billboards",
+  ],
+  "impressions": {
+    "high": 1232202,
+    "low": 314896,
+  },
+  "leads": {
+    "high": 40,
+    "low": 8,
+  },
+  "mix": [
+    "digital-articles-pr 50% ₹150000",
+    "search-performance 50% ₹150000",
+  ],
+  "reach": {
+    "high": 588719,
+    "low": 150146,
+  },
+  "roi": "Medium",
+}
+`;
+
+exports[`planner personas > Surat jeweller festive ₹25 L, 1 month 1`] = `
+{
+  "add": [
+    "brand-ambassadors",
+    "print-media",
+    "television",
+  ],
+  "impressions": {
+    "high": 49254478,
+    "low": 10140692,
+  },
+  "leads": {
+    "high": 3208,
+    "low": 801,
+  },
+  "mix": [
+    "social-media 36% ₹891615",
+    "search-performance 36% ₹890736",
+    "hoardings-billboards 29% ₹717649",
+  ],
+  "reach": {
+    "high": 6295204,
+    "low": 1515965,
+  },
+  "roi": "High",
+}
+`;

@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
-import { ContactLead } from "@/lib/leads/schema";
+import { label } from "@/lib/planner/describe";
+import { clientIp, rateLimit, verifyTurnstile } from "@/lib/leads/guard";
+import { deliverLead } from "@/lib/leads/deliver";
+import { ContactLead, normalisePhone } from "@/lib/leads/schema";
+import { whatsappUrl } from "@/lib/whatsapp";
 
-/**
- * POST /api/lead (contact form).
- * M4: validates and accepts the lead. M5 adds Turnstile, rate limiting, UTM capture,
- * the Google Sheet webhook and Resend email. Until then `delivered` is false.
- */
+export const runtime = "nodejs";
+
+/** POST /api/lead: contact form. Validate → bot check → rate limit → Sheet + email. */
 export async function POST(req: Request) {
   let body: unknown;
   try {
@@ -17,9 +19,29 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ ok: false, error: "invalid", issues: parsed.error.flatten().fieldErrors }, { status: 422 });
   }
-  // Honeypot filled: pretend success, drop silently.
-  if (parsed.data.website) return NextResponse.json({ ok: true, delivered: false });
+  const d = parsed.data;
+  if (d.website) return NextResponse.json({ ok: true }); // honeypot: drop silently
 
-  if (process.env.NODE_ENV !== "production") console.info("[lead] contact form (not yet delivered, M5):", { ...parsed.data, phone: "***" });
-  return NextResponse.json({ ok: true, delivered: false }, { status: 202 });
+  const ip = clientIp(req);
+  if (!(await rateLimit(`lead:${ip}`))) return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
+  if (!(await verifyTurnstile(d.turnstileToken, ip)).ok) return NextResponse.json({ ok: false, error: "captcha" }, { status: 403 });
+
+  const phone = `+91 ${normalisePhone(d.phone)}`;
+  const report = await deliverLead(req, {
+    source: "form",
+    row: {
+      mode: "contact",
+      name: d.name,
+      company: d.company,
+      phone,
+      email: d.email,
+      city: d.city,
+      industry: d.industry ? label.industry(d.industry) : "",
+      budget_input: d.budget,
+      message: d.message,
+    },
+    visitor: { name: d.name, email: d.email || undefined },
+    whatsappUrl: `https://wa.me/91${normalisePhone(d.phone)}`,
+  });
+  return NextResponse.json({ ok: true, delivered: report.sheet !== "skipped" || report.notify === "sent", whatsappUrl: whatsappUrl() });
 }

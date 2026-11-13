@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Turnstile } from "@/components/forms/turnstile";
+import { track } from "@/lib/analytics";
 import { ContactLead } from "@/lib/leads/schema";
 
 type FormCopy = {
@@ -36,15 +38,18 @@ export function ContactForm({
   budgets,
   whatsappHref,
   whatsappLabel,
+  turnstileSiteKey,
 }: {
   copy: FormCopy;
   industries: { id: string; label: string }[];
   budgets: readonly string[];
   whatsappHref: string;
   whatsappLabel: string;
+  turnstileSiteKey?: string;
 }) {
   const id = useId();
   const [state, setState] = useState<"idle" | "done" | "error">("idle");
+  const [token, setToken] = useState<string>();
   const {
     register,
     handleSubmit,
@@ -55,7 +60,8 @@ export function ContactForm({
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const r = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(data) });
+      track("contact_submit", { industry: data.industry || undefined });
+      const r = await fetch("/api/lead", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...data, turnstileToken: token }) });
       setState(r.ok ? "done" : "error");
     } catch {
       setState("error");
@@ -67,7 +73,7 @@ export function ContactForm({
       <div role="status" className="rounded-[var(--brand-radius-card)] bg-ink p-8 text-paper">
         <span aria-hidden className="radar block w-16 text-paper/60" />
         <p className="font-display mt-6 text-3xl font-semibold tracking-tight">{copy.success}</p>
-        <a href={whatsappHref} target="_blank" rel="noreferrer" data-event="whatsapp_click" className="mono-label mt-8 inline-flex rounded-full bg-coral px-6 py-4 text-ink">
+        <a href={whatsappHref} target="_blank" rel="noreferrer" onClick={() => track("whatsapp_click", { from: "contact" })} className="mono-label mt-8 inline-flex rounded-full bg-coral px-6 py-4 text-ink">
           {whatsappLabel}
         </a>
       </div>
@@ -95,7 +101,7 @@ export function ContactForm({
   });
 
   return (
-    <form onSubmit={onSubmit} noValidate className="grid gap-5 sm:grid-cols-2" data-event="contact_submit">
+    <form onSubmit={onSubmit} noValidate className="grid gap-5 sm:grid-cols-2">
       {F({ name: "name", label: copy.name, required: true, children: <input {...register("name")} {...a11y("name")} autoComplete="name" className={field} /> })}
       {F({ name: "company", label: copy.company, children: <input {...register("company")} {...a11y("company")} autoComplete="organization" className={field} /> })}
       {F({ name: "phone", label: copy.phone, required: true, children: <input {...register("phone")} {...a11y("phone")} type="tel" inputMode="tel" autoComplete="tel" className={field} /> })}
@@ -140,6 +146,9 @@ export function ContactForm({
           Website
           <input {...register("website")} tabIndex={-1} autoComplete="off" />
         </label>
+      </div>
+      <div className="sm:col-span-2">
+        <Turnstile siteKey={turnstileSiteKey} onToken={setToken} theme="light" />
       </div>
       <div className="flex flex-wrap items-center gap-5 sm:col-span-2">
         <button type="submit" disabled={isSubmitting} className="mono-label rounded-full bg-coral px-8 py-4 text-ink transition-colors hover:bg-ink hover:text-paper disabled:opacity-60">

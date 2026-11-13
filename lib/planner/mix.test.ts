@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { loadChannels } from "@/lib/content/load-channels";
+import { activeMonths } from "@/data/planner-weights";
 import { recommendMix, scoreChannel } from "./mix";
 import { toPlannerChannel, type MixInput } from "./types";
 
@@ -34,7 +35,7 @@ describe("recommendMix", () => {
       const mix = recommendMix(channels, { ...base, budgetINR });
       for (const l of mix) {
         const c = channels.find((x) => x.slug === l.slug)!;
-        expect(l.amountINR, `${l.slug} @ ${budgetINR}`).toBeGreaterThanOrEqual(c.costs.minEffectiveBudgetINR * Math.max(base.months, c.costs.minDurationMonths ?? 1) - 1);
+        expect(l.amountINR, `${l.slug} @ ${budgetINR}`).toBeGreaterThanOrEqual(c.costs.minEffectiveBudgetINR * activeMonths(base.months, c.costs.minDurationMonths) - 1);
       }
     }
   });

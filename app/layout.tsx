@@ -3,6 +3,7 @@ import { brand, theme, themeCssVars } from "@/brand";
 import { fontVariables } from "@/brand/fonts";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { EventClicks } from "@/components/analytics/event-clicks";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { getChannels } from "@/lib/content/channels";
 import "./globals.css";
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className="min-h-dvh antialiased">
         <SmoothScroll />
+        <EventClicks />
         <SiteHeader channelCount={channelCount} />
         <main id="main">{children}</main>
         <SiteFooter />

@@ -68,6 +68,7 @@ export default function ContactPage() {
             budgets={t.budgetBands}
             whatsappHref={wa}
             whatsappLabel={t.whatsappCta}
+            turnstileSiteKey={process.env.TURNSTILE_SITE_KEY || undefined}
           />
           <aside className="space-y-6">
             <div className="rounded-[var(--brand-radius-card)] bg-forest p-7 text-paper">

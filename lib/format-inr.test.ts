@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatCrore, formatINR, formatINRCompact } from "./format-inr";
+import { formatCount, formatCrore, formatINR, formatINRCompact, parseINR } from "./format-inr";
 
 describe("format-inr", () => {
   it("uses Indian digit grouping", () => {
@@ -13,5 +13,20 @@ describe("format-inr", () => {
   });
   it("formats crore figures", () => {
     expect(formatCrore(20866)).toBe("₹20,866 Cr");
+  });
+});
+
+describe("counts and parsing", () => {
+  it("formats counts in lakh and crore", () => {
+    expect(formatCount(84000)).toBe("84,000");
+    expect(formatCount(1250000)).toBe("12.5 L");
+    expect(formatCount(25000000)).toBe("2.5 Cr");
+  });
+  it("parses Indian budget input", () => {
+    expect(parseINR("40 L")).toBe(4000000);
+    expect(parseINR("2.5 Cr")).toBe(25000000);
+    expect(parseINR("₹15,00,000")).toBe(1500000);
+    expect(parseINR("80k")).toBe(80000);
+    expect(parseINR("abc")).toBeNaN();
   });
 });

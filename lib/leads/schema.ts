@@ -19,6 +19,21 @@ export const ContactLead = z.object({
   budget: z.string().max(40).optional().or(z.literal("")),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
   /** Honeypot: real users never see or fill this. */
-  website: z.string().max(0).optional().or(z.literal("")),
+  website: z.string().max(500).optional(),
+  turnstileToken: z.string().max(4000).optional(),
 });
 export type ContactLead = z.infer<typeof ContactLead>;
+
+/** Planner unlock: contact details + the plan inputs as a query string (recomputed server-side). */
+export const PlanLead = z.object({
+  query: z.string().max(2000),
+  name: z.string().trim().min(2, "required").max(80),
+  company: z.string().trim().max(120).optional().or(z.literal("")),
+  phone: z.string().trim().refine(isIndianMobile, "invalidPhone"),
+  email: z.string().trim().email("invalidEmail").max(160).optional().or(z.literal("")),
+  city: z.string().trim().max(80).optional().or(z.literal("")),
+  message: z.string().trim().max(2000).optional().or(z.literal("")),
+  website: z.string().max(500).optional(),
+  turnstileToken: z.string().max(4000).optional(),
+});
+export type PlanLead = z.infer<typeof PlanLead>;

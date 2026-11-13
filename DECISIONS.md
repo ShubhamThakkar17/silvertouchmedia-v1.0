@@ -185,3 +185,48 @@ Items marked **OPEN** need a decision from you.
 - The very first CLI attempt defaulted to the production target and failed on the Next.js check,
   so nothing was ever live in production.
 
+## M5 · Planner and leads
+
+- **One engine, three consumers.** `lib/planner` is pure and runs in the browser for instant
+  results; `/api/plan` re-runs it from the URL query so the PDF, emails and Sheet never trust
+  numbers sent by the browser. `lib/planner/describe.ts` turns engine codes into copy, so the
+  page, PDF, email and WhatsApp text always match.
+- **Flighting assumption.** The brief's minimum-budget rule multiplies by duration. For 6 and
+  12-month plans we assume channels run in bursts (4 and 6 active months), otherwise a 12-month
+  national plan could never afford TV. Configurable in `data/planner-weights.ts` (`ACTIVE_MONTHS`).
+- **Reach overlap.** Total reach is 65% of the sum of channel reach (`TOTAL_REACH_DEDUP`),
+  a planning assumption. Leads are estimated only for search and social, from the industry
+  CPL table (search about 25% dearer).
+- **Mode B totals** are shown with a ±15% range for rates and inventory. Launch = minimum
+  effective budget × active months × city-tier cost multiplier × zone scale.
+- **ROI band thresholds:** allocation-weighted band value (Low 1, Medium 2, High 3) plus a stage
+  shift; below 1.6 is Low, below 2.4 Medium, otherwise High.
+- **Persona snapshots.** Ten personas from the brief are snapshot-tested. Changing data or weights
+  changes snapshots on purpose: review the diff, then `pnpm test -u`.
+- **URL state** is parsed leniently: each bad field falls back on its own, and unknown channel
+  slugs are dropped, so old or hand-edited links still open. Channel-page links
+  (`?mode=budget&channels=slug`) become a must-include.
+- **Mobile results** use a bottom bar that opens a full-height sheet; desktop keeps a sticky
+  panel that scrolls on its own.
+- **PDF** is rendered with `@react-pdf/renderer` in the API route and returned to the browser
+  for download as well as attached to the emails. The built-in PDF fonts have no ₹ glyph, so
+  Inter and Space Grotesk TTFs (SIL OFL) are bundled in `brand/pdf-fonts/` and traced into the
+  serverless function.
+- **Emails** are plain React with inline styles rendered by `@react-email/render`, sent through
+  Resend. `@react-email/components` is deprecated upstream, so it is not used.
+- **Sheets:** Apps Script webhook (primary) with a shared secret and formula-injection guard, or
+  an optional service account using the Sheets REST API with a JWT signed by `node:crypto`
+  (no `googleapis` dependency).
+- **Abuse protection:** Turnstile (skipped when keys are absent, for local work), a silent
+  honeypot, and an IP rate limit of 5 submissions per 10 minutes (Upstash if configured,
+  otherwise in-memory per instance).
+- **Attribution:** `middleware.ts` sets a first-party, httpOnly `attr` cookie with UTM params,
+  referrer and landing page on the first visit (refreshed on a new UTM visit). The device
+  type is read from the user agent at submit time.
+- **Analytics hooks** (`lib/analytics.ts`) fire the brief's events but are no-ops until GA4 or
+  Meta Pixel scripts load, which M6 gates behind a consent banner.
+- **Methodology page** reads every weight, multiplier and benchmark from `/data`, so it cannot
+  drift from what the planner actually does.
+- **Not live yet:** with no `RESEND_API_KEY`, `SHEETS_WEBHOOK_URL` or Turnstile keys set, leads
+  are validated and the PDF is generated, but nothing is emailed or written to a Sheet.
+

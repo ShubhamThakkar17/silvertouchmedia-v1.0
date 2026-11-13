@@ -1,5 +1,6 @@
 import {
   ALLOCATION,
+  activeMonths,
   CHANNEL_COUNT_BY_BUDGET,
   OBJECTIVE_FUNNEL,
   SCORE_WEIGHTS,
@@ -78,7 +79,7 @@ export function recommendMix(channels: PlannerChannel[], input: MixInput): MixLi
   const { min, max } = channelCountFor(input.budgetINR);
   const needsFloor = ALLOCATION.measurementObjectives.includes(input.objective);
   const isMeasure = (slug: string) => ALLOCATION.measurementChannels.includes(slug);
-  const minFor = (c: PlannerChannel) => c.costs.minEffectiveBudgetINR * Math.max(input.months, c.costs.minDurationMonths ?? 1);
+  const minFor = (c: PlannerChannel) => c.costs.minEffectiveBudgetINR * activeMonths(input.months, c.costs.minDurationMonths);
   const ordered = [...scored.filter((s) => must.has(s.c.slug)), ...scored.filter((s) => !must.has(s.c.slug))];
   type Picked = (typeof scored)[number];
 
