@@ -42,6 +42,9 @@ export const fontSymbols = localFont({
   variable: "--nf-symbols",
   display: "swap",
   preload: false,
+  // No generated Arial fallback face: it has no unicode-range and would swallow every
+  // glyph, so the real brand fonts after it in the stack would never be used.
+  adjustFontFallback: false,
   declarations: [{ prop: "unicode-range", value: "U+20B9, U+2190-2199, U+2248, U+2070-2079" }],
 });
 export const fontSymbolsDisplay = localFont({
@@ -49,6 +52,7 @@ export const fontSymbolsDisplay = localFont({
   variable: "--nf-symbols-display",
   display: "swap",
   preload: false,
+  adjustFontFallback: false,
   declarations: [{ prop: "unicode-range", value: "U+20B9, U+2190-2199, U+2248, U+2070-2079" }],
 });
 

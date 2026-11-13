@@ -5,12 +5,12 @@ mobile form factor, Moto G Power emulation.
 
 | Page | Performance | Accessibility | Best practices | SEO | LCP (simulated) | TBT | CLS | Perf / LCP with devtools throttling |
 |---|---|---|---|---|---|---|---|---|
-| Home (`/`) | 95 | 100 | 100 | 100 | 2.9 s | 10 ms | 0 | 100 / 0.9 s |
-| Channel (Hoardings) (`/channels/hoardings-billboards`) | 97 | 100 | 100 | 100 | 2.5 s | 0 ms | 0 | 100 / 1.7 s |
-| Planner (`/planner`) | 95 | 100 | 100 | 100 | 2.9 s | 0 ms | 0 | 100 / 0.9 s |
+| Home (`/`) | 91 | 100 | 100 | 100 | 3.3 s | 10 ms | 0 | 100 / 0.9 s |
+| Channel (Hoardings) (`/channels/hoardings-billboards`) | 93 | 100 | 100 | 100 | 3.0 s | 0 ms | 0.001 | 100 / 1.7 s |
+| Planner (`/planner`) | 92 | 100 | 100 | 100 | 3.3 s | 0 ms | 0.001 | 100 / 0.9 s |
 
 **Two throttling methods.** The default *simulated* run (Lantern) assumes a text LCP waits for its
-web font, so the headline pages report 2.5 to 2.9 s. With *applied* devtools throttling (4× CPU,
+web font, so pages report 3.0 to 3.3 s. With *applied* devtools throttling (4× CPU,
 slow 4G), which measures what the browser actually paints, the headline appears with its
 size-matched fallback font at first paint (`display: swap`) and LCP is 0.9 to 1.7 s. Field data
 (Chrome UX Report) follows the real paint.

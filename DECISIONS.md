@@ -270,10 +270,10 @@ Items marked **OPEN** need a decision from you.
   `--accent-text` variable set by the nearest light or dark surface. Faint greys were raised to
   at least 65% ink on light and 60% paper on dark. Scrollable tables are focusable regions.
   axe (WCAG 2 A/AA) reports no serious or critical issues on the pages tested.
-- **Performance:** see `docs/lighthouse.md`. Mobile Lighthouse 95 to 97 (simulated) and 100 with
+- **Performance:** see `docs/lighthouse.md`. Mobile Lighthouse 91 to 93 (simulated) and 100 with
   applied throttling on Home, a channel page and the Planner; accessibility, best practices and
   SEO 100. Key changes: hero animation waits for the first interaction (or 7 s), a 2 KB symbols
-  font avoids large latin-ext downloads for ₹, only the display font is preloaded, CSS is inlined.
+  font avoids large latin-ext downloads for ₹ (its auto-generated Arial fallback face is disabled, or it would mask the brand fonts), only the display font is preloaded, CSS is inlined.
 - **Smoke tests:** `pnpm test:e2e` runs Playwright on desktop and a Pixel 7: home, mobile fallback,
   channel page, both planner modes, lead and plan APIs (PDF bytes checked), and axe on key pages.
 
